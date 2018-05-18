@@ -1,0 +1,49 @@
+2017-11-06 11:58:51 DEBUG   ::1             sql=SELECT u.rowid, u.pass, u.pass_crypted FROM llx_user as u
+2017-11-06 11:58:51 DEBUG   ::1             BEGIN Transaction
+2017-11-06 11:58:51 DEBUG   ::1              admin.lib::dolibarr_set_const
+2017-11-06 11:58:51 DEBUG   ::1              sql=DELETE FROM llx_const WHERE name = 'DATABASE_PWD_ENCRYPTED' AND entity = 1
+2017-11-06 11:58:51 DEBUG   ::1              admin.lib::dolibarr_set_const
+2017-11-06 11:58:51 DEBUG   ::1              sql=INSERT INTO llx_const(name,value,type,visible,note,entity) VALUES ('DATABASE_PWD_ENCRYPTED', '1','chaine',0,'',1)
+2017-11-06 11:58:51 DEBUG   ::1             COMMIT Transaction
+2017-11-06 11:58:51 DEBUG   ::1             BEGIN Transaction
+2017-11-06 11:58:51 DEBUG   ::1              admin.lib::dolibarr_set_const
+2017-11-06 11:58:51 DEBUG   ::1              sql=DELETE FROM llx_const WHERE name = 'MAIN_SECURITY_SALT' AND entity = 0
+2017-11-06 11:58:51 DEBUG   ::1              admin.lib::dolibarr_set_const
+2017-11-06 11:58:51 DEBUG   ::1              sql=INSERT INTO llx_const(name,value,type,visible,note,entity) VALUES ('MAIN_SECURITY_SALT', '20171106115851','chaine',0,'',0)
+2017-11-06 11:58:51 DEBUG   ::1             COMMIT Transaction
+2017-11-06 11:58:51 DEBUG   ::1             BEGIN Transaction
+2017-11-06 11:58:51 DEBUG   ::1              admin.lib::dolibarr_set_const
+2017-11-06 11:58:51 DEBUG   ::1              sql=DELETE FROM llx_const WHERE name = 'MAIN_SECURITY_HASH_ALGO' AND entity = 0
+2017-11-06 11:58:51 DEBUG   ::1              admin.lib::dolibarr_set_const
+2017-11-06 11:58:51 DEBUG   ::1              sql=INSERT INTO llx_const(name,value,type,visible,note,entity) VALUES ('MAIN_SECURITY_HASH_ALGO', 'sha1md5','chaine',0,'',0)
+2017-11-06 11:58:51 DEBUG   ::1             COMMIT Transaction
+2017-11-06 11:58:51 DEBUG   ::1             User::create login=admin, user=0
+2017-11-06 11:58:51 DEBUG   ::1             BEGIN Transaction
+2017-11-06 11:58:51 DEBUG   ::1              User::create
+2017-11-06 11:58:51 DEBUG   ::1              sql=SELECT login FROM llx_user WHERE login ='admin' AND entity IN (0,1)
+2017-11-06 11:58:51 DEBUG   ::1              sql=INSERT INTO llx_user (datec,login,ldap_sid,entity) VALUES('20171106115851','admin','',0)
+2017-11-06 11:58:51 DEBUG   ::1              User::create
+2017-11-06 11:58:51 DEBUG   ::1              sql=SELECT id FROM llx_rights_def WHERE bydefault = 1 AND entity = 1
+2017-11-06 11:58:51 DEBUG   ::1              User::update notrigger=1, nosyncmember=1, nosyncmemberpass=0
+2017-11-06 11:58:51 DEBUG   ::1               User::update
+2017-11-06 11:58:51 DEBUG   ::1               sql=UPDATE llx_user SET lastname = 'SuperAdmin', firstname = '', employee = 1, login = 'admin', api_key = null, gender = '', admin = 1, address = '', zip = '', town = '', fk_state = null, fk_country = null, office_phone = '', office_fax = '', user_mobile = '', email = '', skype = '', job = '', signature = '', accountancy_code = '', color = '', dateemployment=null, note = '', photo = null, openid = null, fk_user = null, weeklyhours= null, entity = '0' WHERE rowid = 1
+2017-11-06 11:58:51 DEBUG   ::1               User::setPassword user=0 password=********* changelater=0 notrigger=1 nosyncmember=0
+2017-11-06 11:58:51 DEBUG   ::1                User::setPassword
+2017-11-06 11:58:51 DEBUG   ::1                sql=UPDATE llx_user SET pass_crypted = '530c657b694ce199a9c4c4ac097b05d16fd8ed96', pass_temp = null, pass = null WHERE rowid = 1
+2017-11-06 11:58:51 DEBUG   ::1                User::setPassword notrigger=1 error=0
+2017-11-06 11:58:51 DEBUG   ::1               User::update set link with member
+2017-11-06 11:58:51 DEBUG   ::1               sql=UPDATE llx_user SET fk_member =null where rowid = 1
+2017-11-06 11:58:51 DEBUG   ::1             COMMIT Transaction
+2017-11-06 11:58:51 DEBUG   ::1             BEGIN Transaction
+2017-11-06 11:58:51 DEBUG   ::1              step5: set MAIN_VERSION_FIRST_INSTALL const to 6.0.3
+2017-11-06 11:58:51 DEBUG   ::1              sql=INSERT INTO llx_const(name,value,type,visible,note,entity) values('MAIN_VERSION_FIRST_INSTALL','6.0.3','chaine',0,'Dolibarr version when first install',0)
+2017-11-06 11:58:51 DEBUG   ::1             COMMIT Transaction
+2017-11-06 11:58:51 DEBUG   ::1             BEGIN Transaction
+2017-11-06 11:58:51 DEBUG   ::1              step5: set MAIN_VERSION_LAST_INSTALL const to 6.0.3
+2017-11-06 11:58:51 DEBUG   ::1              sql=DELETE FROM llx_const WHERE name='MAIN_VERSION_LAST_INSTALL'
+2017-11-06 11:58:51 DEBUG   ::1              sql=INSERT INTO llx_const(name,value,type,visible,note,entity) values('MAIN_VERSION_LAST_INSTALL','6.0.3','chaine',0,'Dolibarr version when last install',0)
+2017-11-06 11:58:51 DEBUG   ::1              step5: remove MAIN_NOT_INSTALLED const
+2017-11-06 11:58:51 DEBUG   ::1              sql=DELETE FROM llx_const WHERE name='MAIN_NOT_INSTALLED'
+2017-11-06 11:58:51 DEBUG   ::1             COMMIT Transaction
+2017-11-06 11:58:51 DEBUG   ::1             sql=INSERT INTO llx_const(name,value,type,visible,note,entity) VALUES ('MAIN_LANG_DEFAULT','de_DE','chaine',0,'Default language',1)
+2017-11-06 11:58:51 DEBUG   ::1             --- step5: Dolibarr setup finished

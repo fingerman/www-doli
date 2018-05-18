@@ -1,0 +1,224 @@
+Module432403Name= Paramétrages avancés
+Module432403Desc = Affichage par onglets de tous les paramètres cachés de Dolibarr
+Module432403Long = Vous accédez à tous les paramètres cachés de Dolibarr au même endroit. Vous pourrez les activer/désactiver et les paramétrer en un clic.
+EasyParamSetup = Paramétrage
+Propal = Proposition Commerciale
+Order = Commande
+Foundation = Association
+Contract = Contrat
+Banks = Banque
+EasyParam = Paramétrages avancés
+
+#global.php
+MAINAUTOFILLDATE=Si cette constante est définie (à autre que 0 quelque chose), la date de la facture, la proposition, l'ordre ou le paiement sont remplis avec la date actuelle. Il est fortement recommandé de ne pas activer cette fonctionnalité. Cela crée beaucoup d'erreurs de saisie sans données non validés par les utilisateurs. Cela a conduit dans de mauvaises valeurs enregistrées dans la base de données donnant des maux de tête lorsque vous avez à faire vos rapports comptables! Toutefois, certains utilisateurs veulent, alors nous fournir.
+MAINDISABLEFULLSCANLIST=Constante pour désactiver l'analyse complète des tableaux pour connaître le montant total de l'élément pour permettre la pagination pour montrer le nombre total de pages. Pour activer sur les systèmes avec un nombre très important de données (tableaux avec plus de 500 000 dossiers).
+MAINFIRSTTOUPPER=Pour ajouter des majuscules pour les tiers, les contacts ou les noms des membres, si pas fait. Attention, certaines langues (dont les paroles avec majuscules ne sont pas mêmes mots, ou pagecode n'a pas toujours une majuscule, comme les langues cyrilliques), cette fonction peut modifier vos données.
+MAINENABLELOGTOHTML=Si cette constante est définie, il est possible d'avoir des journaux à l'intérieur de pages en ajoutant le paramètre & logtohtml = 1 dans l'URL.
+MAINUSEHOURMININDATERANGE=Sur toutes les lignes des entités (facture, commande, contrat ...), il est possible d'ajouter des heures et les minutes avec la date sur les champs 'date de début' et 'fin de date'.
+MAINREMOVEINSTALLWARNING=Supprimer tous les avertissements de sécurité qui apparaît aux utilisateurs d'administrateur si URL / install est public. Vous devrez résoudre le problème si l'alerte se produit au lieu de supprimer cet avertissement. Pour cela, placez un fichier appelé install.lock dans le répertoire racine de Dolibarr. Cela permettra d'éliminer l'alerte, mais aussi rendre la page / install pas possible d'utiliser pour protéger votre installation.
+MAINOPTIMIZESPEED=Utilisez des améliorations de vitesse.
+MAINREPEATCONTACTONEACHTAB=Si ajouté et mis à 1, cela ajouter des contacts sur tous les onglets, non seulement onglet principal.
+MAINDISABLEJQUERYJNOTIFY=Désactive l'utilisation de JNotify pour afficher les messages de confirmation ou d'erreur
+MAINUSEJQUERYJEDITABLE=Permet de mettre à jour à partir de screnn, directement dans la base de données, certaines propriétés des éléments (factures, propositions, ...) en utilisant Ajax. Ce temps de réponse de faire plus vite, mais évitez d'utiliser cette fonctionnalité, parce que, viaduc des actions commerciales (mises à jour onother données qui devrait être fait consitently) et ne tiennent pas compte des contrôles d'affaires sur les données que vous avez enregistrés. Donc, cette fonctionnalité casse consitency des données et la stabilité du logiciel.
+MAINUSEJQUERYMULTISELECT=Laisser utiliser Ajax quand un choix qui nécessite multiselect est utilisé (pour l'instant seuls des modules externes utilisent la boîte de sélection avec les valeurs multiselect). Définissez la valeur sur le nom du plugin jQuery à utiliser (multiselect, multiple-select, select2 ...). Réglage à toute autre valeur se traduira par des effets secondaires et / ou des bugs indésirables.
+MAINPRODUCTDISABLECUSTOMCOUNTRYCODE=Évite le code et pays d'origine personnalisés à définir comme description du produit lorsqu'il est ajouté à Propal / commande / facture
+MAINSHOWTUNINGINFO=Ajouter des informations d'accord en javascript console. Mieux quand xdebug est activé.
+MAINMINNBENABLEDMODULEFORWARNING=Un avertissement disant configuration des modules est pas complet est affiché si le nombre de modules activés est inférieur ou égal à cette valeur (1 si non défini)
+MAINADDSALEREPSIGNATUREINNOTE=Ajouter la signature du premier représentant de la vente dans des documents (à la fin des notes publiques).
+MAINDISABLEAJAXCOMBOX=Si vous avez une grande quantité de thirdparty ou d'un produit, vous pouvez désactiver la fonctionnalité de saisie semi-automatique sur la liste des les tiers par la mise en MAIN_DISABLE_AJAX_COMBOX constante 1 dans Home-Setup-Autres (avec Dolibarr v3.6.0 +).
+MAINUSECACHEMANIFEST=Ajouter un cache HTML5 manifeste à la page
+MAINFORCELANGDIR=chemin relatif du répertoire contenant votre custom langs dossier.
+MAINVATDEFAULTIFAUTODETECTFAILS=permet de définir un taux de TVA par défaut
+MAINPROPAGATECONTACTSFROMORIGIN=Lors de la création d'une ordonnance, un contrat, une facture d'un autre objet, des contacts spécifiques d'objets sont mis en contact comme spécifique du nouvel objet lorsque cela est possible. (> = 4.0)
+MAINPUBLICNOTEINADDRESS=afficher la note publique dans le bloc d'adresse
+MAINVIEWLINENUMBER=Affiche un numéro de ligne sur chaque ligne dans l'ordre / facture pour les produits / services. À l'écran uniquement, pas sur PDF.
+MAINAUTOTIMESTAMPINPUBLICNOTES=Ajoutez un horodatage et un utilisateur automatiquement lors de l'édition de la note publique.
+MAINAUTOTIMESTAMPINPRIVATENOTES=Ajoutez un horodatage et un utilisateur automatiquement lors de l'édition de la note privée.
+MAINSHOWTECHNICALID=Affichez également les identifiants techniques sur les cartes d'éléments ou certaines listes (pas supportés partout).
+MAINSECURITYCSRFWITHTOKEN=Activez une deuxième protection anti CSRF sur POST (un POST d'un autre site Web ne peut pas être fait). Notez qu'il existe déjà une protection par défaut en utilisant le test sur le référent. Cette deuxième protection utilise TOKEN sur les formulaires et est moins puissante.
+MAINROUNDOFTOTALNOTTOTALOFROUND=Changer la façon d'arrondir les lignes TTC totales, arrondir d'abord après
+MAINAPPLICATIONTITLE=Cela va changer le titre du logiciel (qui apparaît sur ​​la page de connexion par défaut). Attention, en changeant ce qui peut rendre la détection de version Dolibarr échoue par des applications smartphones comme Application Android - DoliDroid
+MAINHELPCENTERLINKTOUSE=Définir le lien URL pour utiliser comme cible pour le lien «Je besoin d'aide" sur la page d'ouverture de session
+MAINMODULESFOREXTERNAL=Limite de modules disponibles pour les utilisateurs externes. En valeur par defaut 'facture, commande, contact, Propal, projet, contrat, societe, ficheinter, expédition, agenda'
+MAINDOLSCRIPTSROOT=Définir le répertoire qui contient le répertoire 'scripts (eg / var / www / dolibarr)
+MAINFORCELANGDIR=chemin relatif du répertoire contenant votre custom langs dossier.
+MAINHTMLTITLE=peut être utilisé pour contrôler la façon dont le titre html est formaté. Si la valeur contient la clé 'noapp', nom de l'application ne sera pas émis. Si la valeur contient 'thirdpartynameonly', sur l'onglet pour les tiers, seul le nom de les tiers sont émis. La valeur peut être la liste des tags: 'noapp; thirdpartynameonly'
+MAINLANDINGPAGE=Permet de choisir la première page à afficher après la connexion. Cette option fonctionne comme une option globale (llx_const) et par option d'utilisateur (llx_user_param).
+MAINWEIGHTDEFAULTROUND=Précision du poids (nombre de décimales)
+MAINWEIGHTDEFAULTUNIT=unité par défaut pour le poids (0 = kg, -3 = g, ...)
+MAINVOLUMEDEFAULTROUND=Précision du volume (nombre de décimales)
+MAINVOLUMEDEFAULTUNIT=unité par défaut pour le poids (0=m3, -3=dm3, ...)
+MAINDEFAULTPAYMENTTERMID=Avec l'id d'un mode de paiement, cela l'utilisera comme moyen de paiement par défaut chaque fois que vous créez une nouvelle proposition, une commande, une facture (client et fournisseur)
+MAINFILESYSTEMENCODING=Avec une certaine version PHP, PHP ne peut pas détecter le code de page du système de fichiers du système d'exploitation du serveur. Pour résoudre ce problème, Dolibarr suppose que votre système de fichiers OS est UTF-8 si sur le système linux ou osx et iso-8859-1 si sur Windows. Sinon, par exemple sur un serveur Windows avec un pagecode NTFS UTF-8, vous pouvez définir la variable MAIN_FILESYSTEM_ENCODING sur "utf-8".
+
+
+#theme.php
+MAINOPTIMIZEFORTEXTBROWSER=Optimiser la sortie de rendu pour l'utilisation d'un navigateur texte (utile pour les personnes aveugles)
+THEMEELDYDISABLEIMAGE=Désactive les images du menu principal pour le thème eldy.
+MAINMENUHIDEUNAUTHORIZED=Masquer le menu si l'utilisateur n'est pas autorisé (plutôt que le griser).
+
+#email_sms.php
+MAINMAILDEBUG=Ecrire un contenu avec en-tête du dernier courrier dans le fichier dolibarr_mail.log dans le répertoire dolibarr_main_data_root.
+MAINSMSDEBUG=Ecrire le contenu des SMS envoyés dans le fichier dolibarr_sms.log dans le répertoire dolibarr_main_data_root.
+MAINMAILALLOWSENDMAILF=Sur un système Linux ou BSD, la fonction PHP email utilisez la commande sendmail local au serveur. Dans certains cas, l'e - mail de l' expéditeur doit être fournie sur la ligne de commande de sendmail avec l' option -f. Cette option est ici pour demander Dolibarr pour appeler la fonction messagerie de PHP en ajoutant la valeur pour l'option -f. Notez que dans la plupart des cas, même avec sendmail, l' expéditeur email est correctement géré comme il est ajouté dans l' en- tête technique email. Cette option est ici seulement pour la configuration rare de sendmail qui demandent la -f option soit obligatoire ou pour la configuration de sendmail qui n'utilise par défaut le retour-chemin de tête email pour définir l'expéditeur (avec cette option, le chemin de retour sera être fourni également sur ​​la ligne de commande et non perdue par sendmail).
+MAINMAILSENDMAILFORCEBA=Sur Lunix ou système BSD, la fonction PHP email utilisez la commande sendmail local au serveur. Dans certains cas, nous voulons au destinataire à fournir à sendmail dans le contenu du courrier électronique au lieu de son paramètre de ligne de commande. Pour cela , il faut ajouter le -ba paramètre à sendmail. Cette option demande PHP pour fournir ce paramètre lors de l' envoi d' un courrier. Notez qu'une autre solution consiste à modifier les mail.force_extra_parameters = -ba dans php.ini fichier.
+MAINMAILNOFULLEMAIL=Email du destinataire et de l'expéditeur sont nettoyés pour être sur la forme '<email>' au lieu de 'Nom <email>'. Cela pourrait résoudre le problème de la compatibilité avec de très vieux expéditeurs.
+MAINFIXFORBUGGEDMTA=Certains agents MTA sont buggés et ajouter quelques caractères CR à chaque fois ils ont vu un LF. Parce que les e-mails Dolibarr sont forgés déjà être nettoyés, si l'agent MTA faire, vous envoyer un email avec deux caractères CR. Cela peut conduire à avoir destinataire ne peut pas lire votre e-mail. Pour résoudre ce problème, ajoutez cette constante à 1. Dolibarr créera alors un e-mail qui ne sont pas RFC conforme, mais parce que l'agent MTA est buggé, l'e-mail sera modifié et devenir correct lors de l'envoi, la résolution du problème de la mauvaise email reçu. Ajouter cette constante si vos bénéficiaires éprouvent des problèmes lors de l'ouverture e-mail par exemple des utilisateurs en utilisant Webmail orange.fr ou hotmail.com
+MAINMAILDONOTUSESIGN=Ne pas ajouter la signature de l'utilisateur à la fin de message prédéfini suggéré
+MAILFORCEDELIVERYRECEIPT=Force la confirmation de réception à 'Oui' sur le formulaire pour envoyer email.
+MAINEMAILUSECCC=Afficher champ Cci dans des formulaires électroniques.
+MAINMAILFORCECONTENTTYPETOHTML=Forcer l'envoi de tous les emails au format HTML
+MAINMAILADDINLINEIMAGESIFINMEDIAS=Si les images ont été stockées dans le répertoire des médias à partir de CKEditor, les images dans les e-mails sont remplacées par des "contenus en ligne". Cela pourrait augmenter considérablement le risque d'être détecté comme SPAM.
+MAINMAILUSEMULTIPART=Force le contenu du courrier électronique à l'aide d'une partie de texte de remplacement (pour 5.0.2+). Par défaut avec 6.0+
+MAINMAILAUTOCOPYTO=Envoyer en BCC aux destinataires lors de l'envoi électronique de proposition, commande ou la facture. Si l'option MAIN_EMAIL_USECCC est également définie, vous verrez destinataire email de BCC sous forme électronique sur la même ligne utilisé pour entrer BCC.
+MAINEMAILADDTRACKID=Lorsque la valeur est 1 (ce qui est également une valeur par défaut si l'option est pas définie): Le dossier 'Message-id' ajouté en-tête de smtp comprend un identifiant de suivi pour définir où le courriel a été envoyé. Lorsque la valeur est 2: vous envoyez un e-mail de la carte thirdparty, l'e-mail de l'expéditeur est complété par l'e-mail source de chaîne de suivi '+ thiXXX' sur l'email (votre e-mail sera envoyé avec le 'From' qui est myname+thi123@mycompany.com ). Donc, lors de la réception e-mail fera 'réponse' utilisateur, email sera envoyé à myname@mycompany.com mais avec l'identifiant de suivi inclus (en-tête ou dans la cible e-mail), vous permettant de connaître à laquelle thirdparty ou de l'objet, l'échange de courrier électronique est relatif à.
+MAILMAXNBOFRECIPIENTSINSAMEEMAIL=Limiter l'envoi de 1 message électronique à x destinataires pour le même message électronique (x pour Pour: + CC: + BCC :). Si elle n'est pas définie, la valeur est 10. Obligatoire pour lutter contre le spam.
+
+#thirdparty.php
+SOCIETEDISABLECUSTOMERS=Supprimer tous les menus et fonctions liées aux clients
+SOCIETEDISABLEPROSPECTS=Supprimer tous les menus et fonctions liées aux perspectives
+THIRDPARTYNOTCUSTOMERPROSPECTBYDEFAULT=Ne pas définir le statut «Client / Prospect" à "sur" lors de la création d'un nouveau thirdparty à partir du menu "New thirdparty".
+THIRDPARTYNOTSUPPLIERBYDEFAULT=Ne pas définir le statut "Fournisseur" à "sur" lors de la création d'un nouveau thirdparty à partir du menu "New thirdparty".
+THIRDPARTYDEFAULTCREATECONTACT=Par défaut Thirparty créer sont individuels
+SOCIETESORTONTYPEENT=La liste déroulante de "type de thirpdarty" est triée sur une "position" de champ qui apparaît dans dictionnaire au lieu de l'ordre alphabétique.
+SOCIETEDISABLESTATE=Ne pas utiliser le champ "État / province"
+THIRDPARTYDEFAULTUSEVAT=Lors de la création d'un nouveau tiers, le champ «Utiliser TVA» est activé ou désactivé en fonction de la valeur de ce paramètre.
+THIRDPARTYDEFAULTUSELOCALTAX1=Lors de la création d'un nouveau tiers, le champ «Utiliser une deuxième TVA» est activé ou désactivé en fonction de la valeur de ce paramètre.
+THIRDPARTYDEFAULTUSELOCALTAX2=Lors de la création d'un nouveau tiers, le champ «Utiliser une troisieme taxe» est activé ou désactivé en fonction de la valeur de ce paramètre.
+THIRDPARTYINCLUDEPARENTINLINKTO=Recherchez également des éléments sur un tiers parent lors de l'utilisation de la fonction d'objet "lien vers".
+THIRDPARTYINCLUDEPROJECTTHIRDPARYINLINKTO=Recherchez également des éléments sur un tiers qui possède le projet de l'élément actuel lorsque vous utilisez la fonctionnalité d'objet "lien vers" (si le projet appartient à une tierce partie différente de celle actuelle
+
+#quotation.php
+PROPALCLONEONCREATEPAGE=Sur la page Créer une proposition, demander si nous voulons créer la proposition par le clonage d'un celui déjà existant. Vous devez utiliser à la place le bouton "Clone" disponible sur les propositions existantes.
+MAINPROPALCHOOSEODTDOCUMENT=Sur la page de configuration, vous serez en mesure de choisir quel document ODT à utiliser lors de proximité ou d'annuler des propositions.
+MAINGENERATEPROPOSALSWITHPICTURE=Ajouter une image de produit (le premier trouvé s'il y a plusieurs) dans le PDF généré des propositions. Notez que l' utilisation de cette réduire la largeur disponible pour la description du produit.
+WORKFLOWPROPALCANCLASSIFYBILLEDWITHOUTINVOICES=Bouton "classer Facturée" visible sur la proposition même s'il n'y a pas de facture liée à la proposition.
+PRODUITPDFMERGEPROPAL=Lors de la génération de la proposition PDF, tous les fichiers PDF liés aux produits liés à la proposition sont également inclus dans PDF final
+PROPALDISABLESIGNATURE=Ne pas afficher la box pour la signature.
+
+#invoice.php
+INVOICECANALWAYSBEREMOVED=Permet de toujours supprimer les factures (même si la facture est pas la dernière (attention numérotation)).
+INVOICECANNEVERBEREMOVED=Empêche de supprimer des factures (sauf les brouillons).
+INVOICEPOSITIVECREDITNOTE=Tous les montants sur les notes de crédit PDF sont positifs.
+FACTURECHANGETHIRDPARTY=Permet de changer le tiers dans le projet de factures. Si une remise a été définie à partir du thirdparty original, puis réduction de rester, ce qui rend les données non cohérente.
+FACTUREUSEPROFORMAT=Active le type de factures PROFORMAT.
+FACTUREDEPOSITSAREJUSTPAYMENTS=Traite les factures de dépôt comme un cas particulier. factures de dépôt ne sont pas comptés sur le chiffre d'affaires. Ils sont ensuite appliqués à titre de paiement, comme une réduction, sur la facture finale. Par défaut, lorsque vous incluez le dépôt dans le projet de la facture finale, le montant de la facture finale est réduite. Avec cette option, montant final ne soit pas réduite, mais un paiement est inscrit.
+FACTURESENDBYEMAILFORALLSTATUS=Permet d'envoyer la facture par e-mail au client, même si la facture a le statut "brouillon".
+MAINGENERATEDOCUMENTSWITHOUTVAT=Désactiver la TVA sur les documents générés - comme pour une association -. Fonctionne avec le modèle 'crabe'
+AUTOFILLJS=Affiche un bouton pour remplir automatiquement le montant du paiement pour chaque facture sur la page de création de paiement
+INVOICECREDITNOTESTANDALONE=Permet de faire une note de crédit sans facture.
+INVOICEUSESITUATION=Active la fonction 'facture de situation'
+WORKFLOWBILLONSHIPMENT=Change le label du bouton avec le label approprié lorsque vous avez besoin pour créer une facture depuis les livraisons
+INVOICEDISABLEDEPOSIT=Désactive les factures de dépôt
+INVOICEDISABLEREPLACEMENT=Désactive les factures de remplacement
+INVOICEDISABLECREDITNOTE=Désactive les notes de crédit
+
+#order.php
+COMMANDEREQUIRESOURCE=Rend le champ "Source de la commande" obligatoire.
+COMMANDEVALIDAFTERCLOSEPROPAL=Quand une commande est créée depuis une proposition commerciale, la commande est directement définie avec le statut "Validée".
+COMMANDECHANGETHIRDPARTY=Autorise le changement de client sur une commande.
+
+#export.php
+EXPORTTOOLCATEGORIES=Permet d'exporter les catégories (plusieurs lignes) dans une colonne
+USESTRICTCSVRULES=Utilise un format CSV strict / réel pour l'exportation.
+EXPORTCSVSEPARATORTOUSE=Valeur de chaîne à utiliser comme séparateur pour délimiter les champs int fichiers exportés (par l'utilisation de Dolibarr par défaut ","). Exemple: EXPORT_CSV_SEPARATOR_TO_USE =;
+EXPORTCSVFORCECHARSET=Choisit le charset du fichier CSV construit par l'exportation. Par défaut: UTF-8. Exemple: EXPORT_CSV_FORCE_CHARSET = ISO-8859-1
+
+#agenda.php
+MAINADDEVENTONELEMENTCARD=Permettre de créer un événement depuis un document (proposition, commande, facture).
+AGENDAUSEEVENTTYPE=Ajouter un champ obligatoire "Type" lors de la création d'un événement (obsolète).
+AGENDAMAXEVENTSDAYVIEW=Définit le nombre maximum d'entrées visibles pour chaque jour de l'ordre du jour. La valeur par défaut est 3. La valeur 0 signifie aucune limite.
+AGENDAAUTOSETENDDATEWITHDELTAHOURS=Pour définir automatiquement la date d'événement de fin à ce jour + delta sur la page de création d'événements.
+
+#product.php
+PRODUCTADDTYPEINDOCUMENTS=Ajouter le texte "Produit" ou "service" au début des lignes sur des documents PDF construits.
+PRODUCTDONOTSEARCHANYWHERE=Lorsque la recherche Ajax est activée, la recherche se fait sur des critères partout dans l'étiquette du produit. En ajoutant cette option, la recherche se fait uniquement sur début de l'étiquette. Ce qui est vraiment plus rapide lorsque vous avez un grand nombre de produits.
+PRODUITDESCINLIST=Voir la description longue du produit/service dans les listes.
+PRODUITPDFMERGEPROPAL=Active le module PROPAL fusion produit PDF
+PRODUCTUSEOLDPATHFORPHOTO=Demande à Dolibarr de vérifier également l'ancien chemin (avant 3.7) où les photos ont été stockées.
+PRODUCTUSEUNITS=Activer unités de dictionnaire dans la fiche produit/service.
+MAINPRODUCTDISABLECUSTOMCOUNTRYCODE=Évite que le code personnalisé et le pays d'origine soient définis comme description du produit lorsqu'ils sont ajoutés à Propal / Commande / Facture
+PRODUITMULTIPRICESUSEVATPERLEVEL=Lorsque l'option d'utilisation du prix par niveau / segment est activée, cela permet également de définir une TVA dédiée pour chaque niveau de prix.
+MAINDIRECTSTATUSUPDATE=Permet de modifier l'état du produit (à vendre / pas à vendre pour achat / pas à l'achat) directement sur la page du produit via un bouton de commutation marche / arrêt. Cela peut être pratique pour ceux qui ont besoin de désactiver rapidement certains statuts de produits sans avoir à passer par la page de produit d'édition individuellement. Peut également être très utile si utilisé comme filtre sur la liste de produits et de recherche de produits. v4.0 +
+PRODUCTCHARGES=Ajoute un champ supplémentaire pour les frais ad hoc au stade du prix d'achat du produit. Le prix du coût est ensuite calculé avec le prix du fournisseur + frais si défini. Utile pour les coûts supplémentaires pour un produit ou certains frais de livraison pour le produit.
+PRODUCTMAXVISIBLEPHOTO=Affiche un nombre maximum de photos de produits (sous forme de vignettes) sur la carte principale du produit. Exemple, le réglage de cette constante sur '5' montrera les cinq premières photos de produits trouvées sur la carte du produit.
+
+#service.php
+SERVICEAREECOMMERCE200238EC=Si cette option est activée, les services sont traités comme eServices selon directove de la directive européenne 2002/38 / CE ( http://ec.europa.eu/taxation_customs/taxation/vat/traders/e-commerce/article_1610_en .htm ). Taux de TVA par défaut sont basées sur l' achat pays au lieu de vendre le pays pour BtoC vend.
+
+#stock.php
+STOCKSUPPORTSSERVICES=Les services sont également augmentés/diminués dans les stocks.
+SUPPLIERORDERDISABLESTOCKDISPATCHWHENTOTALREACHED=Désactive le dispatch du stock quand le total est atteint.
+
+#cashdesk.php
+CASHDESKSHOWKEYPAD=Afficher un clavier de la souris dans Point Of Sale.
+
+#contract.php
+CONTRACTSUPPORTPRODUCTS=Les produits sont également suggérés dans le module contrat.
+
+#project.php
+PROJECTCANALWAYSLINKTOALLSUPPLIERS=Active la liaison d'un projet à tout fournisseur, même en utilisant la troisième caractéristique de liaison de partie. Remarque: Définissez à 1 par défaut de 3,7.
+PROJECTTIMEONALLTASKSMYPROJECTS=Permet d'ajouter du temps passé sur les tâches, même si je ne suis pas affecté à la tâche (cependant, la tâche doit être un projet que je suis un contact).
+PROJECTSHOWREFINTOLISTS=Ajoute une colonne avec le projet ref dans la liste (avec 3.7 Liste des factures fournisseurs seulement, sera élargi à d'autres listes)
+PROJECTHIDEUNSELECTABLES=Masque dans la liste de sélection, tous les projets que nous ne pouvons pas sélectionner (projet fermé ou)
+PROJECTHIDETASKS=Masque les tâches. Pour les utilisateurs utilisant projet uniquement comme une clé d'analyse et de ne pas utiliser les tâches.
+PROJECTLISTSHOWSTARTDATE=Affiche la date de début des projets dans les listes de projets.
+HPROJECTLINKONOVERWIEWDISABLED=Masque le "lien" formulaire sur la page de présentation
+PROJECTCREATEONOVERVIEWDISABLED=Masque le bouton "créer ..." sur la page d'aperçu
+PROJECTALLOWTOLINKFROMOTHERCOMPANY=Autorise à lier un objet à un projet d'un autre tiers
+
+#foundation.php
+MEMBERURLREDIRECTSUBSCRIPTION=Lien appelé et affiché lorsque un compte membre est autocreated dans le module de membre par un utilisateur invité.
+MEMBEREXTURLSUBSCRIPTIONINFO=Lien de page externe pointée par le lien "Afficher ici" pour ajouter fron hors forme de cellules de paiement dans la page pour faire un abonnement en ligne.
+
+#intervention.php
+FICHINTERCLASSIFYBILLED=Permet de classer une intervention comme «Facturée». Ce module déclenche également FICHINTER_CLASSIFY_BILLED dans la liste des possibles cas automatique dans l'ordre du jour.
+FICHINTERDISABLEDETAILS=Désactiver l'entrée de lignes de détails sur une intervention. Permet de valider sans ligne.
+
+#supplier.php
+FOURNPRODUCTAVAILABILITY=Sur les pages prix fournisseurs des produits, active la disponibilité des produits chez le fournisseur. Ceci est caractéristique double avec delivery_delay introduit avec 3,8.
+SUPPLIERORDERAUTOADDUSERCONTACT=Ajoute utilisateur qui approuve la commande fournisseur comme un contact automatiquement.
+SUPPLIERORDERUSEDISPATCHSTATUS=Ajouter un statut sur chaque ligne de commande d'expédition
+SUPPLIERORDERNODIRECTAPPROVE=Pas de bouton "Valider et approuver". Toujours ne pas "Valider" et "Approuver" en 2 étapes.
+SUPPLIERORDERWITHNOPRICEDEFINED=Autorise d'entrer un produit même si aucun prix fournisseur n'est défini.
+SUPPLIERORDEREDITBUYINGPRICEDURINGRECEIPT=Permet de modifier le prix d'achat utilisé pour le calcul de PMP lors de la réception d'un stock sur une commande fournisseur. (v6.0 +)
+
+#bank.php
+BANKCANRECONCILIATECASHACCOUNT=Peut réconcilier les comptes de trésorerie
+BANKDISABLECHECKDEPOSIT=Désactiver chèque fonction de dépôt
+BANKASKPAYMENTBANKDURINGORDER=Demandez le compte bancaire lors de la création de l'ordre
+
+#pdf.php
+MAINDISABLEFORCESAVEAS=Si votre navigateur demande toujours d'enregistrer des fichiers téléchargés sur le disque (comme PDF), essayez d'ajouter cette option. puissance du fichier apparaît directement dans votre navigateur.
+MAINDISABLEPDFCOMPRESSION=Désactive la compression PDF.
+MAININVERTSENDERRECIPIENT=Inverse expéditeur et destinataire dans certains PDF.
+MAININVERTSENDERRECIPIENT=Désactive la génération automatique de PDF chaque fois que nous ajoutons / mise à jour / supprimer une ligne de produits (on peut encore construire le document en cliquant sur "Générer"). Cette option peut augmenter la vitesse d'interface sur le serveur avec une faible CPU.
+MAINUSEBACKGROUNDONPDF=Définit cette constante avec le nom abrégé d'une image (exemple "myimage.jpg") qui doit être sauvegardé dans le répertoire "documents / mycompany / logos". Cela ajoutera cette image de fond à vos fichiers PDF générés. Avertissement: Cette option rend la bibliothèque TCPDF devenant folle quelque temps et le contenu sur image disparu!
+MAINUSECOMPANYNAMEOFCONTACT=Utilise les données du contact plutôt que celles de l'entreprise
+MAINGENERATEPROPOSALSWITHPICTURE=Inclure la première image du produit dans la ligne de la proposition PDF généré.
+MAINGENERATEINVOICESWITHPICTURE=Inclure la première image du produit dans la ligne de la facture PDF généré.
+MAINDOCUMENTSWITHPICTUREWIDTH=Peut changer la taille de l'image lorsque l'option MAIN_GENERATE_PROPOSALS_WITH_PICTURE est utilisée. La valeur par défaut est 20.
+PDFSHOWPROJECT=Montrer le projet sur PDF (pris en charge sur commande fournisseur uniquement pour le moment)
+PDFBANKHIDENUMBERSHOWONLYBICIBAN=Masquer le numéro de banque ( "Code banque / guichet / compte" pour la France, "sort nombre / compte" pour GB, ...) et ne garder que BIC / IBAN sur PDF.
+MAINODTASPDFDELSOURCE=Pour la génération de ODT. Si défini le comportement alors initial est conservé, le fichier odt est supprimé lorsque générer pdf. Désactivé par défaut
+MAINUSEBACKGROUNDONPDF=Définit cette constante avec le nom abrégé d'une image (par exemple "myimage.jpg") qui doit être sauvegardé dans le répertoire "documents / MyCompany / logos". Cela va ajouter cette image d'arrière-plan dans vos fichiers PDF générés. Attention: Cette option rendre bibliothèque TCPDF beeing fou parfois et le contenu de l'image a disparu!
+MAINADDPDFBACKGROUND=Définit cette constante avec le nom abrégé d'un fichier PDF ( par exemple "de mypdf.pdf") qui doit être sauvegardé dans le répertoire "documents / mycompany". Cela va ajouter PDF comme un arrière - plan de certains de vos fichiers PDF générés (propositions, factures, commandes). Si vous avez besoin de concaténer PDF, voir la place Module Concat PDF .
+MAINPDFFORCEFONT=Pour ignorer la police définie dans le fichier de langue et de forcer l'utilisation d'une police particulière. Par exemple, "DejaVuSans".
+MAINPDFMARGIN=Pour forcer les marges (mm) de documents PDF (10 par défaut).
+MAINPDFFREETEXTHEIGHT=Modifie la hauteur de l'espace réservé à la sortie du texte libre.
+MAINPDFTITLEBACKGROUNDCOLOR=Peut définir une couleur de fond sur la ligne de titre. Exemple: '220220200'
+MAINODTASPDF=Active la conversion PDF à partir du document ODT. Si la valeur est 'jodconverter', l'outil de ligne de commande java et jodconverter doit être disponible. Si la valeur est '/pathto/jodconverter.jar', alors java et jodconvertar jar doivent exister. Le bureau doit également être disponible. MAIN_DOL_SCRIPTS_ROOT Doit également être défini sur le chemin où le répertoire "scripts" est stocké (par exemple / var / www / mydolibarr).
+MAINDOLSCRIPTSROOT=Active la conversion PDF du document ODT. Si la valeur est 'jodconverter', java et un outil de ligne de commande jodconverter doivent être disponibles. Si la valeur est '/pathto/jodconverter.jar', puis java et le moût de pot de jodconvertar existe. soffice doit également être disponible. MAIN_DOL_SCRIPTS_ROOT doit également être défini au chemin où le répertoire "scripts" est stocké (par exemple / var / www / mydolibarr).
+
+#emailing.php
+MAILINGNOUSINGPHPMAIL=Si activé, l'envoi par mail du module ne peut pas être utilisé avec la configuration de messagerie de "phpmail". L'utilisation d'un serveur SMTP tiers est requise. Vous pouvez compléter le message d'avertissement en ajoutant un courrier électronique pour contacter l'aide de configuration avec constante MAILING_SMTP_SETUP_EMAILS_FOR_QUESTIONS.
+EMAILINGUSEADVANCEDSELECTOR=Active le sélecteur avancé pour les destinataires
+MAILINGPREFIXFOREMAILID=Définit la valeur qui sera utilisée pour composer le "Email Id" dans les en-têtes de courrier électronique. Si vous définissez cette valeur sur 'SERVER_NAME', l'hôte virtuel du serveur Web sera utilisé. Par défaut, ce n'est pas défini, donc une clé de hachage, unique à chaque instance, est utilisée.
+MAILINGSMTPSETUPEMAILSFORQUESTIONS=Contient un courrier électronique à afficher dans un message visible à l'utilisateur lorsqu'il tente d'utiliser le module de messagerie sans serveur SMTP et si l'option MAILING_NO_USING_PHPMAIL est activée.
+MAILINGLIMITWARNINGPHPMAIL=Affiche un message d'avertissement (var contient le message à afficher ou la clé de traduction) en envoyant un formulaire d'envoi par email si l'installation est sur "phpmail". Par exemple, vous pouvez définir ce paramètre dans 'MAILING_LIMIT_WARNING_PHPMAIL' et entrez la clé de traduction pour chaque langue pour cette clé.
+MAILINGLIMITWARNINGNOPHPMAIL=Affiche un message d'avertissement (var contient le message à afficher ou la clé de traduction) sur le formulaire d'envoi par courrier électronique si la configuration est autre chose que «phpmail». Par exemple, vous pouvez définir ce paramètre dans «MAILING_LIMIT_WARNING_NOPHPMAIL» et entrez la clé de traduction pour chaque langue de cette clé.
+MAILINGLIMITSENDBYWEB=Limite le nombre d'e-mails que vous pouvez envoyer dans la même session d'envoi avec le module de messagerie électronique à partir de l'interface utilisateur graphique. La valeur "dolibarr_mailing_limit_sendbyweb" si définie dans le fichier de configuration est utilisée en priorité pour cette limite
+MAILINGLIMITSENDBYCLI=Limite le nombre d'e-mails que vous pouvez envoyer dans la même session d'envoi avec le module de messagerie du script CLI. La valeur "dolibarr_mailing_limit_sendbycli" si définie dans le fichier de configuration est utilisée en priorité pour cette limite.
+
+#wysiwyg.php
+FCKEDITORENABLEDETAILSFULL=Peut couper et coller des images externes (hébergées sur un serveur externe) dans la description de la proposition, des commandes ou des factures. AVERTISSEMENT: la génération de PDF n'est pas garantie avec ceci. De plus, si l'image est supprimée ou renommée par l'hébergeur d'images, votre proposition, votre commande ou votre facture seront brisées.

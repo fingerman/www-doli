@@ -1,0 +1,224 @@
+Module432403Name = Advanced settings
+Module432403Desc = Easily access to the hidden parameters of Dolibarr
+Module432403Long = You access all the hidden Dolibarr settings in the same location. You are an actor / deactivate and set it with one click.
+EasyParamSetup = Setup
+Propal = Proposal
+Order = Order
+Foundation = Foundation
+Contract = Contract
+Banks = Bank
+EasyParam = Advanced settings
+
+#global.php
+MAINAUTOFILLDATE=If this constant is defined (to something else than 0), the date of invoice, proposal, order or payment are filled with current date. It is highly recommended to NOT ENABLE this feature. This create a lot of input errors with no data not validated by users. This lead in bad values saved in database giving headaches when you have to do your accountancy reports ! However some users want it, so we provide it.
+MAINDISABLEFULLSCANLIST=Constant to define to disable complete scan of tables to know the total amount of element to allow the pagination to show total number of pages. To activate on systems with a very important number of data (Tables with more than 500 000 records).
+MAINFIRSTTOUPPER=Dolibarr add upper case to thirdparties, contacts or members names if not done. Warning, with some languages (whose words with uppercase are not same words, or pagecode does not always have an uppercase, like cyrillic languages), this feature may alter your data.
+MAINENABLELOGTOHTML=If this constants is defined, it is possible to have logs inside pages by adding the parameter &logtohtml=1 into URL.=Si cette constante est définie, il est possible d'avoir des journaux à l'intérieur de pages en ajoutant le paramètre & logtohtml
+MAINUSEHOURMININDATERANGE=On all entities lines (invoice, order, contract...), it is possible to add hour and minutes with date on fields 'date start' and 'date end'.
+MAINREMOVEINSTALLWARNING=Remove all security warning that appears to administrator users if URL /install is public. You shoud solve the problem if warning occurs instead of removing this warning. For this, put a file called install.lock into Dolibarr root directory. This will remove warning but also make the page /install not possible to use to protect your installation.
+MAINOPTIMIZESPEED=Use some speed enhancements
+MAINREPEATCONTACTONEACHTAB=If added and set to 1, this add contacts on all tabs, not only main tab.
+MAINDISABLEJQUERYJNOTIFY=Disable usage of JNotify to show confirm or error messages
+MAINUSEJQUERYJEDITABLE=Allow to update from screnn, directly into database, some properties of elements (invoices, proposals, ...) using Ajax. This make response time faster, but avoid using this features, because, it overpass some business actions (updates onother data that should be done consitently) and ignore business controls on data you saved. So this feature breaks consitency of data and stability of software.
+MAINUSEJQUERYMULTISELECT=Allow to use Ajax when a choice that require multiselect is used (for the moment only external modules uses select box with multiselect values). Set the value to the jQuery plugin name to use (multiselect, multiple-select, select2…). Setting it to any other value will result in unwanted side-effects and/or bugs.
+MAINPRODUCTDISABLECUSTOMCOUNTRYCODE=Avoid Custom code and country of origin to be set as product description when added to Propal/Order/Invoice
+MAINSHOWTUNINGINFO=Add tuning information into javascript console. Better when xdebug is enabled.
+MAINMINNBENABLEDMODULEFORWARNING=A warning saying setup of modules is not complete is shown if number of enabled modules is lower or equal than this value (1 if not defined)
+MAINADDSALEREPSIGNATUREINNOTE=Add signature of first sale representative into documents (at end of public notes).
+MAINDISABLEAJAXCOMBOX=If you have a large amount of thirdparty or product, you can disable the autocomplete feature on thirdparties list by setting constant MAIN_DISABLE_AJAX_COMBOX to 1 into Home-Setup-Other (with Dolibarr v3.6.0+).
+MAINUSECACHEMANIFEST=Add an HTML5 cache manifest to the page
+MAINFORCELANGDIR=relative path of the directory holding your custom langs folder.
+MAINVATDEFAULTIFAUTODETECTFAILS=allow to define a default VAT rate
+MAINPROPAGATECONTACTSFROMORIGIN=When creating an order, contract, invoice from another object, specific contacts of objects are set as specific contact of the new object when possible.
+MAINPUBLICNOTEINADDRESS=show public note in address block
+MAINVIEWLINENUMBER=Shows a line number against each line in the order/invoice for products/services. On screen only, not on PDF.
+MAINAUTOTIMESTAMPINPUBLICNOTES=Add a timestamp and user automatically when editing the public note.
+MAINAUTOTIMESTAMPINPRIVATENOTES=Add a timestamp and user automatically when editing the private note.
+MAINSHOWTECHNICALID=Show also technical IDs on elements cards or some lists (not supported everywhere).
+MAINSECURITYCSRFWITHTOKEN=Activate a second anti CSRF protection on POST (a POST from another web site can't be done). Note there is already a default protection using test on referrer. This second protection uses TOKEN on forms and is less powerful.
+MAINROUNDOFTOTALNOTTOTALOFROUND=Change way of rounding total TTC lines, rounding first of after
+MAINAPPLICATIONTITLE=This will change the title of software (that appears on the login page by default). Warning, changing this may make Dolibarr version detection fails by smartphone applications like Application Android - DoliDroid
+MAINHELPCENTERLINKTOUSE=Define the url link to use as target for link 'I need help' onto logon page
+MAINMODULESFOREXTERNAL=Limit available modules for external users. By defaut value is 'facture,commande,contact,propal,projet,contrat,societe,ficheinter,expedition,agenda'
+MAINDOLSCRIPTSROOT=Define directory who contains 'scripts' directory (e.g /var/www/dolibarr)
+MAINFORCELANGDIR=relative path of the directory holding your custom langs folder.
+MAINHTMLTITLE=can be used to control how html title is formated. If value contains key 'noapp', application name will not be output. If value contains 'thirdpartynameonly', on tab for thirdparties, only name of thirdparties are output. Value can be list of tags: 'noapp;thirdpartynameonly'
+MAINLANDINGPAGE=Can choose the first page to show after login. This option works as a global option (llx_const) and per user option (llx_user_param).
+MAINWEIGHTDEFAULTROUND=Accuracy of weight (number of decimals)
+MAINWEIGHTDEFAULTUNIT=Default unit for weight (0=kg, -3=g, ...)
+MAINVOLUMEDEFAULTROUND=Accuracy of volume (number of decimals)
+MAINVOLUMEDEFAULTUNIT=Default unit for volume (0=m3, -3=dm3, ...)
+MAINDEFAULTPAYMENTTERMID=With id of a payment term, will use this as default payment term each time you create a new proposal, order, invoice (customer and supplier)
+MAINFILESYSTEMENCODING=With some PHP version, PHP is not able to detect what is page code for filesystem of the server OS. To solve this, Dolibarr suppose your OS filesystem is UTF-8 if on linux or osx system, and iso-8859-1 if on Windows. If not, for example on a Windows server with a NTFS UTF-8 pagecode, you can set the variable MAIN_FILESYSTEM_ENCODING to "utf-8".
+
+
+#theme.php
+MAINOPTIMIZEFORTEXTBROWSER=Optimize output rendering for usage of a text browser (usefull for blind people)
+THEMEELDYDISABLEIMAGE=Disabled images of top menu for eldy theme.
+MAINMENUHIDEUNAUTHORIZED=Hide menu if user not autorized rather than just grey them
+
+#email_sms.php
+MAINMAILDEBUG=Write content with header of last mail into file dolibarr_mail.log into directory dolibarr_main_data_root.
+MAINSMSDEBUG=Write content of SMS sent into file dolibarr_sms.log into directory dolibarr_main_data_root.
+MAINMAILALLOWSENDMAILF=On Linux or BSD system, PHP email function use the command sendmail local to server. In some cases, the sender email must be provided on command line of sendmail with option -f. This option is here to ask Dolibarr to call the function mail of PHP by adding value for the option -f. Note that in most cases, even with sendmail, sender email is correctly managed as it is added in the email technical header. This option is here only for rare setup of sendmail that ask the -f option to be mandatory or for sendmail setup that does not use by default the Return-path of header email to define the sender (with this option, the return-path will be provided also on command line and not lost by sendmail).
+MAINMAILSENDMAILFORCEBA=On Lunix or BSD system, PHP email function use the command sendmail local to server. In some case, we want to recipient to be provided to sendmail into the email content instead of its command line parameter. For this we must add the -ba parameter to sendmail. This option ask PHP to provide this parameter when sending a mail. Note that another solution is to edit the mail.force_extra_parameters=-ba into php.ini file.
+MAINMAILNOFULLEMAIL=Recipient email and sender are cleaned to be on form '<email>' instead of 'Name <email>'. This might solve problem of compatibility with very old mailers.
+MAINFIXFORBUGGEDMTA=Some MTA agent are bugged and add some CR chars each time they saw a LF. Because Dolibarr emails are forged to be already cleaned, if MTA agent do that, you will send an email with two CR chars. This may result in having recipient not able to read your email. To fix this, add this constant to 1. Dolibarr will then create an email that is not RFC compliant but because the MTA agent is bugged, the email will be modified and become correct during sending, solving the problem of bad email received. Add this constant if your recipient experience problems when opening email for example users using webmail of orange.fr or hotmail.com
+MAINMAILDONOTUSESIGN=Do not add user signature at end of suggested predefined email
+MAILFORCEDELIVERYRECEIPT=Force delivery receipt to 'Yes' onto form to send email.
+MAINEMAILUSECCC=Show field BCC into email forms.
+MAINMAILFORCECONTENTTYPETOHTML=Force to send all email (event with text only content) as HTML formatted email.
+MAINMAILADDINLINEIMAGESIFINMEDIAS=If images were stored into the medias directory from CKEditor, then images into emails are replaced with "inline content". This may increase seriously risk of being detected as SPAM.
+MAINMAILUSEMULTIPART=Forge email content using an alternate text part (for 5.0.2+). By default with 6.0+
+MAINMAILAUTOCOPYTO=Send a BCC to the recipients when sending email for proposal, order or invoice. If option MAIN_EMAIL_USECCC is also set, you will see recipient email of BCC into email form on same line used to enter BCC.
+MAINEMAILADDTRACKID=When value is 1 (this is also default value if option is not set): The record 'Message-id' added into smtp header includes a tracking id to define where the email was sent from. When value is 2: you send an email from thirdparty card, the sender email is completed with the email source tracking string '+thiXXX' on email (your email will be sent with the 'From' that is myname+thi123@mycompany.com). So when user receiving email will make 'Answer', email will be sent to myname@mycompany.com but with the tracking id included (into header or into target email), allowing you to know to which thirdparty or object, the email exchange is related to.
+MAILMAXNBOFRECIPIENTSINSAMEEMAIL=Restrict sending of 1 email message to x recipients for same email message (x for To: + CC: + BCC:). If not defined, value is 10. Required to fight against spamming that include 1000
+
+#thirdparty.php
+SOCIETEDISABLECUSTOMERS=Remove all menu and features related to customers
+SOCIETEDISABLEPROSPECTS=Remove all menu and features related to prospects
+THIRDPARTYNOTCUSTOMERPROSPECTBYDEFAULT=Do not set status 'Customer/Prospect' to 'on' when creating a new thirdparty from menu 'New thirdparty'.
+THIRDPARTYNOTSUPPLIERBYDEFAULT=Do not set status 'Supplier' to 'on' when creating a new thirdparty from menu 'New thirdparty'.
+THIRDPARTYDEFAULTCREATECONTACT=Default Thirparty create are individual
+SOCIETESORTONTYPEENT=The combo list of 'type of thirpdarty' is sorted on a field 'position' that appears into dictionnary instead of alphabetical order.
+SOCIETEDISABLESTATE=Do not use field 'state/province'
+THIRDPARTYDEFAULTUSEVAT=When creating a new third party, the field "Use vat" is set to on or off depending on value of this parameter.
+THIRDPARTYDEFAULTUSELOCALTAX1=When creating a new third party, the field "Use second tax" is set to on or off depending on value of this parameter.
+THIRDPARTYDEFAULTUSELOCALTAX2=When creating a new third party, the field "Use third tax" is set to on or off depending on value of this parameter.
+THIRDPARTYINCLUDEPARENTINLINKTO=Search also for elements on parent third party when using the "link to" object feature.
+THIRDPARTYINCLUDEPROJECTTHIRDPARYINLINKTO=Search also for elements on third party that own the project of the current element when using the "link to" object feature (if project is owned by a different thirdparty than current
+
+#quotation.php
+PROPALCLONEONCREATEPAGE=On the create proposal page, ask if we want to create the proposal by cloning an already existing one. You should use instead the "Clone" button available on existing proposals.
+MAINPROPALCHOOSEODTDOCUMENT=On setup page, you'll be able to select which ODT document to use when close or cancel proposals.
+MAINGENERATEPROPOSALSWITHPICTURE=Add picture of product (the first one found if there is several) into the generated PDF of proposals. Note that using this reduce available width for product description.
+WORKFLOWPROPALCANCLASSIFYBILLEDWITHOUTINVOICES=Button 'Classified Billed' is visible on proposal even if there is no invoice linked to proposal.
+PRODUITPDFMERGEPROPAL=When generating the proposal PDF, all PDFs linked to products linked to proposal are also included into final PDF
+PROPALDISABLESIGNATURE=Do no show the box for signature.
+
+#invoice.php
+INVOICECANALWAYSBEREMOVED=Allow to always delete invoices (even if invoice is not last one).
+INVOICECANNEVERBEREMOVED=Never allow to delete invoices (except draft invoices).
+INVOICEPOSITIVECREDITNOTE=All amounts on PDF credit notes are positive.
+FACTURECHANGETHIRDPARTY=Allow to change the third party in the draft invoices. If a discount was set from the original thirdparty, then discount remain, making data not coherent.
+FACTUREUSEPROFORMAT=Enable PROFORMAT invoices type.
+FACTUREDEPOSITSAREJUSTPAYMENTS=Treats deposit invoices as a special case. Deposit invoices don't get counted on turnover. They are then applied as a payment, like a discount, on the final invoice. By default, when you include the deposit into draft of final invoice, the amount of final invoice is reduced. With this option, final amount is not reduced but a payment is registered.
+FACTURESENDBYEMAILFORALLSTATUS=Can send invoice by email to customer even if invoice has status 'draft'.
+MAINGENERATEDOCUMENTSWITHOUTVAT=Disable VAT on genrated documents. like for an association. (it's work with crabe template)
+AUTOFILLJS=Display a button to autofill the payment amount for each invoice on the payment creation page
+INVOICECREDITNOTESTANDALONE=Can make a credit note without invoice.
+INVOICEUSESITUATION=Enable the 'situation invoice' feature
+WORKFLOWBILLONSHIPMENT=Change label of button with suitable label when you need to create invoice on shipments
+INVOICEDISABLEDEPOSIT=Disable deposit invoices
+INVOICEDISABLEREPLACEMENT=Disable replacement invoices
+INVOICEDISABLECREDITNOTE=Disable credit notes
+
+#order.php
+COMMANDEREQUIRESOURCE=Make the input field 'Source of order' mandatory.
+COMMANDEVALIDAFTERCLOSEPROPAL=When an order is created on a proposal close, the order is directly defined with status 'Validated'.
+COMMANDECHANGETHIRDPARTY=Can change customer on orders
+
+#export.php
+EXPORTTOOLCATEGORIES=Can export categories (several lines) into one column
+USESTRICTCSVRULES=Use strict/real CSV format for export. Do not clean/replace CR+LF with '\n' but quote them using the escaping CSV char (").
+EXPORTCSVSEPARATORTOUSE=String value to use as separator to delimit fields int exported files (by default Dolibarr use ','). Example: ;
+EXPORTCSVFORCECHARSET=Choose the charset of file built by CSV export. By default: UTF-8. Example: ISO-8859-1
+
+#agenda.php
+MAINADDEVENTONELEMENTCARD=Allow to create an event from a document (proposal, order, invoice)
+AGENDAUSEEVENTTYPE=Add a mandatory field "Type" when creating an event (deprecated).
+AGENDAMAXEVENTSDAYVIEW=Define the maximum number of visible entries for each day in agenda. Default value is 3. Value 0 means no limit.
+AGENDAAUTOSETENDDATEWITHDELTAHOURS=To automatically set end date of event to start date + delta on event creation page.
+
+#product.php
+PRODUCTADDTYPEINDOCUMENTS=Add text 'Product' or 'Service' at beginning of details lines on built PDF documents.
+PRODUCTDONOTSEARCHANYWHERE=When Ajax search is enabled, search is done on criteria anywhere in label of product. By adding this option, search is done only on start of label. This is really faster when you have a huge number of products.
+PRODUITDESCINLIST=Show long description of product/service into lists.
+PRODUITPDFMERGEPROPAL=Enable module Propal merge product PDF
+PRODUCTUSEOLDPATHFORPHOTO=Ask dolibarr to check also old path (before 3.7) where photos were stored.
+PRODUCTUSEUNITS=Enable units from dictionary in product/service card.
+MAINPRODUCTDISABLECUSTOMCOUNTRYCODE=Avoid Custom code and country of origin to be set as product description when added to Propal/Order/Invoice
+PRODUITMULTIPRICESUSEVATPERLEVEL=When option to use price per level/segment is on, this allows to also set a dedicated vat for each price level.
+MAINDIRECTSTATUSUPDATE=Allows you to change the status of the product (for sale/not for sale for purchase/not for purchase) directly on the product page via a on/off switch button. This can be convenient for those who need to quickly disable certain statuses of products without having to go through the editing product page individually. Also can be very useful if used as a filter on the product and product search list. v4.0+
+PRODUCTCHARGES=Adds an extra field for adhoc charges at the product buying price stage. The Cost price is then calculated with supplier price + charges if defined. Useful for extra costs for a product or certain delivery charges to the product.
+PRODUCTMAXVISIBLEPHOTO=Show a maximum number of product photos (as thumbnails) on the product main card. Example, setting this constant to '5' will show the first five product photos found on the product card.
+
+#service.php
+SERVICEAREECOMMERCE200238EC=If this option is enabled, services are processed like eServices according to directove of EU Council Directive 2002/38/EC (http://ec.europa.eu/taxation_customs/taxation/vat/traders/e-commerce/article_1610_en.htm). Default VAT rate are based on buying country instead of selling country for BtoC sells.
+
+#stock.php
+STOCKSUPPORTSSERVICES=Services are also increased/decreased into stocks.
+SUPPLIERORDERDISABLESTOCKDISPATCHWHENTOTALREACHED=Disable stock dispatch when total expected was already received.
+
+#cashdesk.php
+CASHDESKSHOWKEYPAD=Show a mouse key pad into Point Of Sale.
+
+#contract.php
+CONTRACTSUPPORTPRODUCTS=Products are also suggested into module contract.
+
+#project.php
+PROJECTCANALWAYSLINKTOALLSUPPLIERS=Enable linking a project to any supplier even when using the third party link feature. Note: Set to 1 by default from 3.7.
+PROJECTTIMEONALLTASKSMYPROJECTS=Can add time spent on tasks, even if i am not assigned to task (however, task must be a project i am a contact).
+PROJECTSHOWREFINTOLISTS=Add column with project ref into list (with 3.7 list of supplier invoices only, will be expanded to other lists)
+PROJECTHIDEUNSELECTABLES=Hide into select list, all project that we can't select (closed or draft)
+PROJECTHIDETASKS=Hide tasks. For user using project only as an analytics key and not using tasks.
+PROJECTLISTSHOWSTARTDATE=Shows start date of projects in project lists.
+HPROJECTLINKONOVERWIEWDISABLED=Hide the 'link to' form on the overview page
+PROJECTCREATEONOVERVIEWDISABLED=Hide the 'create ...' button on the overview page
+PROJECTALLOWTOLINKFROMOTHERCOMPANY=Can link an object to a project of another thirdparty
+
+#foundation.php
+MEMBERURLREDIRECTSUBSCRIPTION=Link called and shown when a member account is autocreated in member module by a guest user.
+MEMBEREXTURLSUBSCRIPTIONINFO=Link of external page pointed by the 'Show here' link to add in fron off payment cell form into the page to make online subscription.
+
+#intervention.php
+FICHINTERCLASSIFYBILLED=Allow to classify an intervention card as 'Billed'. This add also trigger FICHINTER_CLASSIFY_BILLED into list of possible automatic event into agenda.
+FICHINTERDISABLEDETAILS=Disable entry of details line on intervention. Can validate with no line.
+
+#supplier.php
+FOURNPRODUCTAVAILABILITY=On the Suppliers price page of the products, active the supplier product availability. This is duplicate feature with delivery_delay introduced with 3.8.
+SUPPLIERORDERAUTOADDUSERCONTACT=Add user approving supplier order as a contact automatically.
+SUPPLIERORDERUSEDISPATCHSTATUS=Add a status on each dispatch order line
+SUPPLIERORDERNODIRECTAPPROVE=No button 'Validate and Approve'. Always do step 'Validate' and 'Approve' in 2 steps.
+SUPPLIERORDERWITHNOPRICEDEFINED=Can enter a product even if no supplier price defined.
+SUPPLIERORDEREDITBUYINGPRICEDURINGRECEIPT=Can modify the buying price used for PMP calculation when making a stock reception on a supplier order. (v6.0+)
+
+#bank.php
+BANKCANRECONCILIATECASHACCOUNT=Can reconciliate cash accounts
+BANKDISABLECHECKDEPOSIT=Disable check deposit feature
+BANKASKPAYMENTBANKDURINGORDER=Ask bank account during creation of order
+
+#pdf.php
+MAINDISABLEFORCESAVEAS=If your browser ask always to save downloaded files on disk (like PDF), try to add this option. File might appears directly into your browser.
+MAINDISABLEPDFCOMPRESSION=Disable PDF compression.
+MAININVERTSENDERRECIPIENT=Invert sender and recipient in some PDF.
+MAININVERTSENDERRECIPIENT=Disable automatic generation of PDF each time we add/update/delete a product line (we can still build document by clicking on 'Generate'). This option may increase interface speed on server with low CPU.
+MAINUSEBACKGROUNDONPDF=Define this constant with short name of an image (example "myimage.jpg") that must be saved into directory "documents/mycompany/logos". This will add this background image into your generated PDF files. Warning: This option make TCPDF library beeing crazy sometime and content on image disappeared !
+MAINUSECOMPANYNAMEOFCONTACT=Use contact name and information rather than company
+MAINGENERATEPROPOSALSWITHPICTURE=Include first image of product into line of generated PDF proposal.
+MAINGENERATEINVOICESWITHPICTURE=Include first image of product into line of generated PDF invoice.
+MAINDOCUMENTSWITHPICTUREWIDTH=Can change size of picture when hidden option MAIN_GENERATE_PROPOSALS_WITH_PICTURE is used. By default value is 20.
+PDFSHOWPROJECT=Show project onto PDF (supported on supplier order only for the moment)
+PDFBANKHIDENUMBERSHOWONLYBICIBAN=Hide bank number ('code banque/guichet/compte' for france, 'sort number/account' for GB, ...) and keep only BIC/IBAN on PDF.
+MAINODTASPDFDELSOURCE=or ODT generation. If set then initial behaviour is conserved, odt file is removed when generate pdf. Disabled by default
+MAINUSEBACKGROUNDONPDF=Define this constant with short name of an image (example 'myimage.jpg') that must be saved into directory 'documents/mycompany/logos'. This will add this background image into your generated PDF files. Warning: This option make TCPDF library beeing crazy sometime and content on image disappeared !
+MAINADDPDFBACKGROUND=Define this constant with short name of a PDF file (example 'mypdf.pdf') that must be saved into directory 'documents/mycompany'. This will add PDF as a background of some of your generated PDF files (proposals,invoices,orders). If you need to concat PDF, see instead Module Concat PDF.
+MAINPDFFORCEFONT=To ignore font defined into language file and force usage of a particular font. For example 'DejaVuSans'.
+MAINPDFMARGIN=To force the margins (mm) of PDF documents (10 is default).
+MAINPDFFREETEXTHEIGHT=Change height of space reserved to output the free text.
+MAINPDFTITLEBACKGROUNDCOLOR=Can define a background color onto title line. Example: '220,220,200'
+MAINODTASPDF=Activate PDF conversion from ODT document. If value is 'jodconverter', java and jodconverter command line tool must be available. If value is '/pathto/jodconverter.jar', then java and the jodconvertar jar must exists. soffice must also be available.
+MAINDOLSCRIPTSROOT=Must also be defined to path where the 'scripts' directory is stored (for example /var/www/mydolibarr).
+
+#emailing.php
+MAILINGNOUSINGPHPMAIL=If set, the module emailing can't be use with mail setup of "phpmail". Using a thirdparty SMTP server is required. You can complete warning message by adding an email to contact for setup help with constant MAILING_SMTP_SETUP_EMAILS_FOR_QUESTIONS.
+EMAILINGUSEADVANCEDSELECTOR= Enable the advanced selector for destinaries
+MAILINGPREFIXFOREMAILID=Set the value that will be used to compose the "Email Id" into email headers. If you set this value to 'SERVER_NAME', the virtual host of web server will be used. By default, this is not defined, so a hash key, unique to each instance, is used.
+MAILINGSMTPSETUPEMAILSFORQUESTIONS=Contains an email to show in a message visible to user when he try to use emailing module without SMTP server and if option MAILING_NO_USING_PHPMAIL is set to on.
+MAILINGLIMITWARNINGPHPMAIL=Show a warning message (var contains the message to show or translation key) on emailing send form if setup is on "phpmail". For example, you can set this parameter to 'MAILING_LIMIT_WARNING_PHPMAIL' and enter translation key for each language for this key.
+MAILINGLIMITWARNINGNOPHPMAIL=Show a warning message (var contains the message to show or translation key) on emailing send form if setup is something else than "phpmail". For example, you can set this parameter to 'MAILING_LIMIT_WARNING_NOPHPMAIL' and enter translation key for each language for this key.
+MAILINGLIMITSENDBYWEB=Restrict number of emails you can send in same sending session with emailing module from GUI. The value "dolibarr_mailing_limit_sendbyweb" if defined into config file is used in priority for this limit
+MAILINGLIMITSENDBYCLI=Restrict number of emails you can send in same sending session with emailing module from CLI script. The value "dolibarr_mailing_limit_sendbycli" if defined into config file is used in priority for this limit.
+
+#wysiwyg.php
+FCKEDITORENABLEDETAILSFULL=Can cut and paste external images (hosted on external server) into description of proposal, orders or invoices. WARNING: PDF generation is not guaranted with this. Also if the image is removed or renamed by the image hoster, your proposal, order or invoice will be broken.
