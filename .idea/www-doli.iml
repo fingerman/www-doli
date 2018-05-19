@@ -25,51 +25,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP" type="php">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/htdocs/includes/OAuth/Common" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/OAuth/OAuth1" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/OAuth/OAuth2" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/ccampbell/chromephp" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/ckeditor/ckeditor" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/jquery/css" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/jquery/js" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/jquery/plugins" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/mike42/escpos-php" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/mobiledetect/mobiledetectlib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/nusoap/lib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/odtphp/zip" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/phpoffice/phpexcel" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/restler/framework" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/stripe/data" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/stripe/lib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/stripe/tests" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/swiftmailer/lib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/tecnickcom/tcpdf" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/htdocs/includes/OAuth/Common" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/OAuth/OAuth1" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/OAuth/OAuth2" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/ccampbell/chromephp" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/ckeditor/ckeditor" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/jquery/css" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/jquery/js" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/jquery/plugins" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/mike42/escpos-php" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/mobiledetect/mobiledetectlib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/nusoap/lib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/odtphp/zip" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/phpoffice/phpexcel" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/restler/framework" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/stripe/data" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/stripe/lib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/stripe/tests" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/swiftmailer/lib" />
-          <root url="file://$MODULE_DIR$/htdocs/includes/tecnickcom/tcpdf" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
