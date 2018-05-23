@@ -300,7 +300,7 @@ if (empty($reshook))
             $object->height             	 = GETPOST('sizeheight');
 	        $object->surface            	 = GETPOST('surface');
             $object->surface_units      	 = GETPOST('surface_units');
-            $object->volume             	 = GETPOST('volume');
+            $object->volume               	 = GETPOST('volume');
             $object->volume_units       	 = GETPOST('volume_units');
             $object->finished           	 = GETPOST('finished');
 	        $object->fk_unit                 = GETPOST('units');
