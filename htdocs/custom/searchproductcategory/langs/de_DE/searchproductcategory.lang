@@ -8,6 +8,6 @@ SearchProductCategoryAbout = About
 SearchByCategory=Suchen nach Kategorie
 NothingHere=nichts gefunden
 set_SPC_DO_NOT_LOAD_PARENT_CAT=Keine Standartkategorien zeigen
-DoASearch=Suche/Kein Ergebnis
+DoASearch=Suche
 SPC_DISPLAY_DESC_OF_PRODUCT=Produktbeschreibung anzeigen
 SPC_USE_ONLY_POPIN=nur als Popin (keine Tabelle)
