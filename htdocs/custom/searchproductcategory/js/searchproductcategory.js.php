@@ -8,10 +8,10 @@
 ?>
 var spc_line_class = 'even';
 $(document).ready(function() {
-	$search = $('<span class="searchbycateg_icone"><a href="javascript:;" onclick="openSearchProductByCategory(this)"><?php echo img_picto($langs->trans('SearchByCategory'), 'object_searchproductcategory.png@searchproductcategory') ?></a></span>');
+	$search = $('<span class="searchbycateg_icone"><?php echo "   oder über Kategorien suchen: "?><a href="javascript:;" onclick="openSearchProductByCategory(this)"><?php echo img_picto("Produkte über Kategorien suchen", 'categoryIcon.png@searchproductcategory') ?></a></span>');
 	
 	if($('input#search_idprod').length>0 && $('input#search_idprod').next().attr('class') != 'searchbycateg_icone') {
-		
+
 		$search.find('a').attr('related-label','input#search_idprod');
 		$search.find('a').attr('related','input#idprod');
 		
