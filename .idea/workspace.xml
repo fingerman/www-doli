@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c366681-f0df-4445-81b0-35b1deffc652" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/computer.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/dsds" afterPath="" />
       <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" />
       <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" />
       <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang" />
@@ -21,7 +18,38 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="searchproductcategory.js.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-877">
+              <caret line="168" column="78" lean-forward="true" selection-start-line="168" selection-start-column="78" selection-end-line="168" selection-end-column="78" />
+              <folding>
+                <marker date="1506045701000" expanded="true" signature="5938:5960" ph="..." />
+                <marker date="1506045701000" expanded="true" signature="6001:6007" ph=" " />
+                <marker date="1506045701000" expanded="true" signature="6007:6013" ph=" " />
+                <marker date="1506045701000" expanded="true" signature="6013:6019" ph=" " />
+                <marker date="1506045701000" expanded="true" signature="6019:6025" ph=" " />
+                <marker date="1506045701000" expanded="true" signature="6025:6031" ph=" " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="actions_searchproductcategory.class.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="883">
+              <caret line="129" column="9" lean-forward="true" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
+              <folding>
+                <element signature="e#3390#3412#0#HTML" expanded="true" />
+                <element signature="e#3810#3832#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -50,6 +78,7 @@
       <find>spc</find>
       <find>spc_object_type</find>
       <find>$fk_soc</find>
+      <find>spc_fk</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -70,11 +99,11 @@
         <option value="$PROJECT_DIR$/htdocs/product/card.php" />
         <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php" />
         <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang" />
-        <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" />
         <option value="$PROJECT_DIR$/htdocs/core/class/commonobject.class.php" />
         <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" />
         <option value="$PROJECT_DIR$/../dolibarr/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" />
         <option value="$PROJECT_DIR$/../dolibarr/htdocs/custom/searchproductcategory/script/interface.php" />
+        <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" />
       </list>
     </option>
   </component>
@@ -108,10 +137,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1852" />
-    <option name="y" value="-130" />
-    <option name="width" value="983" />
-    <option name="height" value="521" />
+    <option name="x" value="1358" />
+    <option name="y" value="-431" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -160,6 +189,40 @@
               <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
               <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
+            <path>
+              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
+              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
+              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
+              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
+              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
+              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -177,14 +240,14 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\www-doli\htdocs\custom" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\dolibarr\htdocs\custom" />
       <recent name="C:\xampp\htdocs\www-doli\htdocs\custom" />
+      <recent name="C:\xampp\htdocs\dolibarr\htdocs\custom" />
       <recent name="C:\xampp\htdocs\www-doli\htdocs\custom\declinaison\langs" />
       <recent name="C:\xampp\htdocs\www-doli\htdocs\custom\declinaison\langs\en_US" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\www-doli\htdocs\custom" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -295,27 +358,33 @@
       <workItem from="1526930209715" duration="13578000" />
       <workItem from="1526996354764" duration="609000" />
       <workItem from="1527066837017" duration="17172000" />
-      <workItem from="1527152330167" duration="2518000" />
+      <workItem from="1527152330167" duration="3722000" />
+      <workItem from="1527159888998" duration="39000" />
+      <workItem from="1527171387563" duration="469000" />
+      <workItem from="1527173017857" duration="744000" />
+      <workItem from="1527173838278" duration="621000" />
+      <workItem from="1527236639791" duration="838000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63237000" />
+    <option name="totallyTimeSpent" value="67152000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-431" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22068231" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23560767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3206522" sideWeight="0.30810234" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3206522" sideWeight="0.32462686" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3206522" sideWeight="0.69189763" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3206522" sideWeight="0.67537314" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="PHP-CGI Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -640,13 +709,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1420">
-          <caret line="86" column="75" lean-forward="true" selection-start-line="86" selection-start-column="75" selection-end-line="86" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/htdocs/custom/mylist/includes/jquery/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -658,13 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="62" column="20" lean-forward="false" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-620">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -682,11 +737,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dsds">
+    <entry file="file://$PROJECT_DIR$/dsds" />
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-877">
+          <caret line="168" column="78" lean-forward="true" selection-start-line="168" selection-start-column="78" selection-end-line="168" selection-end-column="78" />
+          <folding>
+            <marker date="1506045701000" expanded="true" signature="5938:5960" ph="..." />
+            <marker date="1506045701000" expanded="true" signature="6001:6007" ph=" " />
+            <marker date="1506045701000" expanded="true" signature="6007:6013" ph=" " />
+            <marker date="1506045701000" expanded="true" signature="6013:6019" ph=" " />
+            <marker date="1506045701000" expanded="true" signature="6019:6025" ph=" " />
+            <marker date="1506045701000" expanded="true" signature="6025:6031" ph=" " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="883">
+          <caret line="129" column="9" lean-forward="true" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
+          <folding>
+            <element signature="e#3390#3412#0#HTML" expanded="true" />
+            <element signature="e#3810#3832#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

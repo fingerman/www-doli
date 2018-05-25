@@ -67,9 +67,9 @@ class ActionsSearchProductCategory
 
 		if (in_array('propalcard',$TContext) || in_array('ordercard',$TContext) || in_array('invoicecard',$TContext)) 
         {
-
+        	
 			if(empty($conf->global->SPC_USE_ONLY_POPIN) && $user->rights->searchproductcategory->user->search) {
-        	//Load list of not yet billed projects
+        	//Charger les liste des projets de type feuille de temps pas encore facturé
 				$colspan1 = 4;
 				$colspan2 = 4;
 				if (!empty($inputalsopricewithtax)) { $colspan1++; $colspan2++; }
@@ -88,12 +88,12 @@ class ActionsSearchProductCategory
 	        		var spc_object_id = '<?php echo $object->id ?>';
 	        		var spc_fk_soc = '<?php echo $object->socid; ?>';
 	        	</script>
-				<tr class="liste_titre nodrag nodrop">
+				<tr class="liste_titre nodrag nodrop" style="display: none;">
 					<td colspan="<?php echo $colspan1; ?>"><?php echo $langs->trans('SearchByCategory') ?></td>
 					<td align="right"><?php echo $langs->trans('Qty'); ?></td>
 					<td align="center" colspan="<?php echo $colspan2; ?>">&nbsp;<?php if (!empty($conf->global->SUBTOTAL_ALLOW_ADD_LINE_UNDER_TITLE)) { echo $langs->trans('subtotal_title_to_add_under_title'); } ?></td>
 				</tr>
-				<tr class="pair">
+				<tr class="pair" style="display: none;">
 					<td colspan="<?php echo $colspan1; ?>">
 						<div id="arboresenceCategoryProduct" spc-role="arbo-multiple">
 							

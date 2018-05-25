@@ -1,13 +1,11 @@
 <?php
 	require '../config.php';
 
-	if(!empty($user->rights->searchproductcategory->user->search)) exit;
+	if(empty($user->rights->searchproductcategory->user->search)) exit;
 
 	$langs->load('searchproductcategory@searchproductcategory');
 
 ?>
-
-
 var spc_line_class = 'even';
 $(document).ready(function() {
 	$search = $('<span class="searchbycateg_icone"><a href="javascript:;" onclick="openSearchProductByCategory(this)"><?php echo img_picto($langs->trans('SearchByCategory'), 'object_searchproductcategory.png@searchproductcategory') ?></a></span>');
@@ -127,7 +125,7 @@ function searchCategorySPC(a) {
 	getArboSPC(0, $("div#arboresenceCategoryProduct,div#popSearchProductByCategory div.arbo"), keyword) ;
 	
 }
-function getArboSPC(fk_parent, container, keyword) {
+function getArboSPC(fk_parent, container,keyword) {
 	
 	container.find('ul.tree').remove();
 	container.append('<span class="loading"><?php echo img_picto('', 'working.gif') ?></span>');
@@ -230,14 +228,14 @@ function addProductSPC(fk_product,label,ref) {
 		$('#idprod').trigger('change');
 	}
 	
-	var $pop = $( "div#popSearchProductByCategory" );s
+	$pop = $( "div#popSearchProductByCategory" );
 	$pop.dialog('close');
 }
 
 function initSearchProductByCategory(selector) {
-
-    var $arbo = $(selector);
-	$arbo.html();  //sreturn the content of the selector->add the list
+	
+	$arbo = $( selector );
+	$arbo.html();
 	$arbo.append('<div><input type="text" value="" name="spc_keyword" size="10" /> <a href="javascript:;" onclick="searchCategorySPC(this)"><?php echo img_picto('','search'); ?></a></div>');
 	$arbo.append('<ul class="tree"><?php echo img_picto('', 'working.gif') ?></ul>');
 	
