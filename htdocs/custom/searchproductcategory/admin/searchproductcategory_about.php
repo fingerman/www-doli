@@ -43,8 +43,8 @@ if (! $user->admin) {
 /*
  * View
  */
-$page_name = "SearchProductCategoryAbout";
-llxHeader('', $langs->trans($page_name));
+$page_name = "";
+llxHeader('');
 
 // Subheader
 $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">'
@@ -61,15 +61,6 @@ dol_fiche_head(
     'searchproductcategory@searchproductcategory'
 );
 
-// About page goes here
-print '<div style="float: left;"><img src="../img/Dolibarr_Preferred_Partner_logo.png" /></div>';
-print '<div>'.$langs->trans('ATMAbout').'</div>';
-
-dol_fiche_end();
-
-print '<br><center>';
-print '<a href="http://www.atm-consulting.fr" target="_blank"><img src="../img/ATM_logo.jpg" /></a>';
-print '</center>';
 
 llxFooter();
 

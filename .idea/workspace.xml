@@ -2,12 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c366681-f0df-4445-81b0-35b1deffc652" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/categoryIcon.png" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" />
-      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" />
-      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang" />
-      <change beforePath="$PROJECT_DIR$/htdocs/langs/de_DE/products.lang" afterPath="$PROJECT_DIR$/htdocs/langs/de_DE/products.lang" />
+      <change beforePath="$PROJECT_DIR$/documents/facture/(PROV17)/(PROV17).pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/documents/propale/(PROV1)/(PROV1).pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/documents/propale/(PROV2)/(PROV2).pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/documents/propale/(PROV3)/(PROV3).pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/documents/propale/(PROV4)/(PROV4).pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/README" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/README" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/modules/modSearchProductCategory.class.php" afterPath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/modules/modSearchProductCategory.class.php" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/ATM_logo.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/Dolibarr_Preferred_Partner_logo.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/object_searchproductcategory.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/searchproductcategory.png" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,25 +27,7 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="searchproductcategory.js.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="72" lean-forward="false" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
-              <folding>
-                <marker date="1527244920597" expanded="true" signature="5967:5989" ph="..." />
-                <marker date="1527244920597" expanded="true" signature="6030:6036" ph=" " />
-                <marker date="1527244920597" expanded="true" signature="6036:6042" ph=" " />
-                <marker date="1527244920597" expanded="true" signature="6042:6048" ph=" " />
-                <marker date="1527244920597" expanded="true" signature="6048:6054" ph=" " />
-                <marker date="1527244920597" expanded="true" signature="6054:6060" ph=" " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -72,6 +61,7 @@
       <find>searchbycateg_icone</find>
       <find>search_idprod</find>
       <find>img_picto</find>
+      <find>png</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,7 +79,6 @@
         <option value="$PROJECT_DIR$/htdocs/custom/declinaison/langs/de_DE/declinaison.lang" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/htdocs/product/card.php" />
-        <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php" />
         <option value="$PROJECT_DIR$/htdocs/core/class/commonobject.class.php" />
         <option value="$PROJECT_DIR$/../dolibarr/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" />
         <option value="$PROJECT_DIR$/../dolibarr/htdocs/custom/searchproductcategory/script/interface.php" />
@@ -97,6 +86,9 @@
         <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php" />
         <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang" />
         <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php" />
+        <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php" />
+        <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/modules/modSearchProductCategory.class.php" />
+        <option value="$PROJECT_DIR$/htdocs/custom/searchproductcategory/README" />
       </list>
     </option>
   </component>
@@ -130,10 +122,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1358" />
-    <option name="y" value="-431" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="-24" />
+    <option name="y" value="12" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -187,52 +179,6 @@
               <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
-            <path>
-              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="img" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="langs" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="www-doli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="www-doli" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="htdocs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="custom" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="searchproductcategory" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="langs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="de_DE" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -242,7 +188,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="project.propDebugger" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dolibarr" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
@@ -374,35 +320,39 @@
       <workItem from="1527171387563" duration="469000" />
       <workItem from="1527173017857" duration="744000" />
       <workItem from="1527173838278" duration="621000" />
-      <workItem from="1527236639791" duration="6207000" />
+      <workItem from="1527236639791" duration="10512000" />
+      <workItem from="1527512127180" duration="890000" />
+      <workItem from="1527516814011" duration="1002000" />
+      <workItem from="1527519031061" duration="643000" />
+      <workItem from="1527528224294" duration="607000" />
+      <workItem from="1527582876741" duration="6471000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72521000" />
+    <option name="totallyTimeSpent" value="86439000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-431" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23560767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21104388" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10978261" sideWeight="0.32462686" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5625" sideWeight="0.34493193" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10978261" sideWeight="0.67537314" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5625" sideWeight="0.6550681" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="PHP-CGI Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4978678" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -419,21 +369,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/declinaison/langs/en_US/declinaison.lang">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/try.html" />
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/htdocs/custom/multicompany/tpl/entity_create.tpl.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -591,83 +526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/boxes/searchproductcategory_box.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-875">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/modules/modSearchProductCategory.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4749">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/triggers/interface_99_modSearchProductCategory_SearchProductCategorytrigger.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6640">
-          <caret line="133" column="18" lean-forward="false" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/lib/searchproductcategory.lib.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-164">
-          <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/script/create-maj-base.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/script/interface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-29">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/config.default.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-900">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_setup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1955">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/css/searchproductcategory.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/htdocs/includes/jquery/js/jquery.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -708,7 +566,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="129" column="65" lean-forward="true" selection-start-line="129" selection-start-column="65" selection-end-line="129" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -716,15 +573,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -732,29 +580,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
           <caret line="2554" column="9" lean-forward="false" selection-start-line="2554" selection-start-column="9" selection-end-line="2554" selection-end-column="9" />
-          <folding>
-            <marker date="1526468447813" expanded="true" signature="45488:45504" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="60270:60282" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="81075:81093" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="83002:83020" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="84119:84125" ph=" " />
-            <marker date="1526468447813" expanded="true" signature="84125:84131" ph=" " />
-            <marker date="1526468447813" expanded="true" signature="84131:84137" ph=" " />
-            <marker date="1526468447813" expanded="true" signature="90082:90100" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="90131:90150" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="99343:99560" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="99937:99993" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="101291:101327" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="152124:152444" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="152178:152419" ph="{...}" />
-            <marker date="1526468447813" expanded="true" signature="152238:152398" ph="{...}" />
-            <marker date="1526468447813" expanded="true" signature="171188:171308" ph="SELECT max(t... ${MAIN_DB_PREFIX}" />
-            <marker date="1526468447813" expanded="true" signature="223938:224418" ph="..." />
-            <marker date="1526468447813" expanded="true" signature="223974:224403" ph="{...}" />
-            <marker date="1526468447813" expanded="true" signature="224080:224143" ph="{...}" />
-            <marker date="1526468447813" expanded="true" signature="224149:224396" ph="{...}" />
-            <marker date="1526468447813" expanded="true" signature="224158:224217" ph="/*...*/" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -763,28 +588,111 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/object_searchproductcategory.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/object_searchproductcategory.png" />
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/searchproductcategory.png" />
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/langs/de_DE/searchproductcategory.lang">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/img/searchproductcategory.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_about.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="64" column="12" lean-forward="false" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/admin/searchproductcategory_setup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="100" column="25" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="25" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/class/actions_searchproductcategory.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="91" column="62" lean-forward="false" selection-start-line="91" selection-start-column="61" selection-end-line="91" selection-end-column="62" />
+        <state relative-caret-position="201">
+          <caret line="106" column="78" lean-forward="false" selection-start-line="106" selection-start-column="76" selection-end-line="106" selection-end-column="78" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/css/searchproductcategory.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/script/interface.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="6" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/config.default.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/boxes/searchproductcategory_box.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/triggers/interface_99_modSearchProductCategory_SearchProductCategorytrigger.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="19" column="61" lean-forward="false" selection-start-line="19" selection-start-column="60" selection-end-line="19" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/core/modules/modSearchProductCategory.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="64" column="78" lean-forward="false" selection-start-line="64" selection-start-column="75" selection-end-line="64" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/script/create-maj-base.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/lib/searchproductcategory.lib.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/htdocs/custom/searchproductcategory/js/searchproductcategory.js.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="72" lean-forward="false" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
+        <state relative-caret-position="20">
+          <caret line="19" column="5" lean-forward="false" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
           <folding>
             <marker date="1527244920597" expanded="true" signature="5967:5989" ph="..." />
             <marker date="1527244920597" expanded="true" signature="6030:6036" ph=" " />
@@ -792,6 +700,26 @@
             <marker date="1527244920597" expanded="true" signature="6042:6048" ph=" " />
             <marker date="1527244920597" expanded="true" signature="6048:6054" ph=" " />
             <marker date="1527244920597" expanded="true" signature="6054:6060" ph=" " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/declinaison/class/declinaison.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1513845566000" expanded="true" signature="721:794" ph="SELECT fk_pa... ${MAIN_DB_PREFIX}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/custom/declinaison/class/actions_declinaison.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1517410266000" expanded="true" signature="6626:6699" ph="SELECT fk_pa... ${MAIN_DB_PREFIX}" />
           </folding>
         </state>
       </provider>
