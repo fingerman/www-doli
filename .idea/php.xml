@@ -21,6 +21,7 @@
       <path value="$PROJECT_DIR$/htdocs/includes/ccampbell/chromephp" />
       <path value="$PROJECT_DIR$/htdocs/includes/jquery/js" />
       <path value="$PROJECT_DIR$/htdocs/includes/odtphp/zip" />
+      <path value="$PROJECT_DIR$/htdocs/includes/ace/snippets" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="5.3.0" />

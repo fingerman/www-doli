@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/OAuth/Common" />
       <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/OAuth/OAuth1" />
       <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/OAuth/OAuth2" />
+      <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/ace/snippets" />
       <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/ccampbell/chromephp" />
       <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/ckeditor/ckeditor" />
       <excludeFolder url="file://$MODULE_DIR$/htdocs/includes/jquery/css" />

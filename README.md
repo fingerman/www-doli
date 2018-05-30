@@ -199,4 +199,3 @@ Follow Dolibarr project on:
 - [LinkedIn](https://www.linkedin.com/company/association-dolibarr)
 - [YouTube](https://www.youtube.com/user/DolibarrERPCRM)
 - [GitHub](https://github.com/Dolibarr/dolibarr)
-"# www-doli" 

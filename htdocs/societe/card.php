@@ -3,13 +3,15 @@
  * Copyright (C) 2003       Brian Fraval            <brian@fraval.org>
  * Copyright (C) 2004-2015  Laurent Destailleur     <eldy@users.sourceforge.net>
  * Copyright (C) 2005       Eric Seigne             <eric.seigne@ryxeo.com>
- * Copyright (C) 2005-2012  Regis Houssin           <regis.houssin@capnetworks.com>
+ * Copyright (C) 2005-2017  Regis Houssin           <regis.houssin@capnetworks.com>
  * Copyright (C) 2008       Patrick Raguin          <patrick.raguin@auguria.net>
  * Copyright (C) 2010-2016  Juanjo Menent           <jmenent@2byte.es>
  * Copyright (C) 2011-2013  Alexandre Spangaro      <aspangaro.dolibarr@gmail.com>
  * Copyright (C) 2015       Jean-François Ferry     <jfefe@aternatik.fr>
  * Copyright (C) 2015       Marcos García           <marcosgdf@gmail.com>
  * Copyright (C) 2015       Raphaël Doursenaud      <rdoursenaud@gpcsolutions.fr>
+ * Copyright (C) 2018       Nicolas ZABOURI	    <info@inovea-conseil.com>
+ * Copyright (C) 2018       Ferran Marcet		    <fmarcet@2byte.es.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,10 +58,11 @@ if (! empty($conf->notification->enabled)) $langs->load("mails");
 $mesg=''; $error=0; $errors=array();
 
 $action		= (GETPOST('action','aZ09') ? GETPOST('action','aZ09') : 'view');
-$cancel     = GETPOST('cancel');
-$backtopage = GETPOST('backtopage','alpha');
-$confirm	= GETPOST('confirm');
-$socid		= GETPOST('socid','int');
+$cancel		= GETPOST('cancel','alpha');
+$backtopage	= GETPOST('backtopage','alpha');
+$confirm	= GETPOST('confirm','alpha');
+
+$socid		= GETPOST('socid','int')?GETPOST('socid','int'):GETPOST('id','int');
 if ($user->societe_id) $socid=$user->societe_id;
 if (empty($socid) && $action == 'view') $action='create';
 
@@ -72,7 +75,9 @@ $extralabels=$extrafields->fetch_name_optionals_label($object->table_element);
 // Initialize technical object to manage hooks of page. Note that conf->hooks_modules contains array of hook context
 $hookmanager->initHooks(array('thirdpartycard','globalcard'));
 
-if ($action == 'view' && $object->fetch($socid)<=0)
+if ($socid > 0) $object->fetch($socid);
+
+if (! ($object->id > 0) && $action == 'view')
 {
 	$langs->load("errors");
 	print($langs->trans('ErrorRecordNotFound'));
@@ -92,7 +97,6 @@ if (! empty($canvas))
 
 // Security check
 $result = restrictedArea($user, 'societe', $socid, '&societe', '', 'fk_soc', 'rowid', $objcanvas);
-
 
 
 /*
@@ -117,9 +121,7 @@ if (empty($reshook))
 
 	if ($action == 'confirm_merge' && $confirm == 'yes' && $user->rights->societe->creer)
 	{
-		$object->fetch($socid);
-
-		$errors = 0;
+		$error = 0;
 		$soc_origin_id = GETPOST('soc_origin', 'int');
 		$soc_origin = new Societe($db);
 
@@ -131,13 +133,13 @@ if (empty($reshook))
 		}
 		else
 		{
-			if (!$errors && $soc_origin->fetch($soc_origin_id) < 1)
+			if (!$error && $soc_origin->fetch($soc_origin_id) < 1)
 			{
 				setEventMessages($langs->trans('ErrorRecordNotFound'), null, 'errors');
-				$errors++;
+				$error++;
 			}
 
-			if (!$errors)
+			if (!$error)
 			{
 			    // TODO Move the merge function into class of object.
 
@@ -147,15 +149,16 @@ if (empty($reshook))
 				$object->client = $object->client | $soc_origin->client;
 				$object->fournisseur = $object->fournisseur | $soc_origin->fournisseur;
 				$listofproperties=array(
-				    'address', 'zip', 'town', 'state_id', 'country_id', 'phone', 'phone_pro', 'fax', 'email', 'skype', 'url', 'barcode', 'idprof1', 'idprof2', 'idprof3', 'idprof4', 'idprof5', 'idprof6',
-				    'tva_intra', 'effectif_id', 'forme_juridique', 'remise_percent', 'mode_reglement_supplier_id', 'cond_reglement_supplier_id', 'name_bis',
-				    'stcomm_id', 'outstanding_limit', 'price_level', 'parent', 'default_lang', 'ref', 'ref_ext', 'import_key', 'fk_incoterms', 'fk_multicurrency',
-				    'code_client', 'code_fournisseur', 'code_compta', 'code_compta_fournisseur',
-				    'model_pdf', 'fk_projet'
+					'address', 'zip', 'town', 'state_id', 'country_id', 'phone', 'phone_pro', 'fax', 'email', 'skype', 'url', 'barcode',
+					'idprof1', 'idprof2', 'idprof3', 'idprof4', 'idprof5', 'idprof6',
+					'tva_intra', 'effectif_id', 'forme_juridique', 'remise_percent', 'mode_reglement_supplier_id', 'cond_reglement_supplier_id', 'name_bis',
+					'stcomm_id', 'outstanding_limit', 'price_level', 'parent', 'default_lang', 'ref', 'ref_ext', 'import_key', 'fk_incoterms', 'fk_multicurrency',
+					'code_client', 'code_fournisseur', 'code_compta', 'code_compta_fournisseur',
+					'model_pdf', 'fk_projet'
 				);
 				foreach ($listofproperties as $property)
 				{
-				    if (empty($object->$property)) $object->$property = $soc_origin->$property;
+					if (empty($object->$property)) $object->$property = $soc_origin->$property;
 				}
 
 				// Concat some data
@@ -176,51 +179,80 @@ if (empty($reshook))
 					}
 				}
 
-				// TODO Merge categories
+				// Merge categories
+				$static_cat = new Categorie($db);
 
+				$custcats_ori = $static_cat->containing($soc_origin->id, 'customer', 'id');
+				$custcats = $static_cat->containing($object->id, 'customer', 'id');
+				$custcats = array_merge($custcats,$custcats_ori);
+				$object->setCategories($custcats, 'customer');
 
-				$object->update($object->id, $user);
+				$suppcats_ori = $static_cat->containing($soc_origin->id, 'supplier', 'id');
+				$suppcats = $static_cat->containing($object->id, 'supplier', 'id');
+				$suppcats = array_merge($suppcats,$suppcats_ori);
+				$object->setCategories($suppcats, 'supplier');
+
+				// If thirdparty has a new code that is same than origin, we clean origin code to avoid duplicate key from database unique keys.
+				if ($soc_origin->code_client == $object->code_client
+					|| $soc_origin->code_fournisseur == $object->code_fournisseur
+					|| $soc_origin->barcode == $object->barcode)
+				{
+					dol_syslog("We clean customer and supplier code so we will be able to make the update of target");
+					$soc_origin->code_client = '';
+					$soc_origin->code_fournisseur = '';
+					$soc_origin->barcode = '';
+					$soc_origin->update($soc_origin->id, $user, 0, 1, 1, 'merge');
+				}
+
+				// Update
+				$object->update($object->id, $user, 0, 1, 1, 'merge');
+				if ($result < 0)
+				{
+					$error++;
+				}
 
 				// Move links
-				$objects = array(
-					'Adherent' => '/adherents/class/adherent.class.php',
-					'Societe' => '/societe/class/societe.class.php',
-					'Bookmark' => '/bookmarks/class/bookmark.class.php',
-					'Categorie' => '/categories/class/categorie.class.php',
-					'ActionComm' => '/comm/action/class/actioncomm.class.php',
-					'Propal' => '/comm/propal/class/propal.class.php',
-					'Commande' => '/commande/class/commande.class.php',
-					'Facture' => '/compta/facture/class/facture.class.php',
-					'FactureRec' => '/compta/facture/class/facture-rec.class.php',
-					'LignePrelevement' => '/compta/prelevement/class/ligneprelevement.class.php',
-					'Contact' => '/contact/class/contact.class.php',
-					'Contrat' => '/contrat/class/contrat.class.php',
-					'Expedition' => '/expedition/class/expedition.class.php',
-					'Fichinter' => '/fichinter/class/fichinter.class.php',
-					'CommandeFournisseur' => '/fourn/class/fournisseur.commande.class.php',
-					'FactureFournisseur' => '/fourn/class/fournisseur.facture.class.php',
-					'SupplierProposal' => '/supplier_proposal/class/supplier_proposal.class.php',
-					'ProductFournisseur' => '/fourn/class/fournisseur.product.class.php',
-					'Livraison' => '/livraison/class/livraison.class.php',
-					'Product' => '/product/class/product.class.php',
-					'Project' => '/projet/class/project.class.php',
-					'User' => '/user/class/user.class.php',
-				);
-
-				//First, all core objects must update their tables
-				foreach ($objects as $object_name => $object_file)
+				if (! $error)
 				{
-					require_once DOL_DOCUMENT_ROOT.$object_file;
+					$objects = array(
+						'Adherent' => '/adherents/class/adherent.class.php',
+						'Societe' => '/societe/class/societe.class.php',
+						//'Categorie' => '/categories/class/categorie.class.php',
+						'ActionComm' => '/comm/action/class/actioncomm.class.php',
+						'Propal' => '/comm/propal/class/propal.class.php',
+						'Commande' => '/commande/class/commande.class.php',
+						'Facture' => '/compta/facture/class/facture.class.php',
+						'FactureRec' => '/compta/facture/class/facture-rec.class.php',
+						'LignePrelevement' => '/compta/prelevement/class/ligneprelevement.class.php',
+						'Contact' => '/contact/class/contact.class.php',
+						'Contrat' => '/contrat/class/contrat.class.php',
+						'Expedition' => '/expedition/class/expedition.class.php',
+						'Fichinter' => '/fichinter/class/fichinter.class.php',
+						'CommandeFournisseur' => '/fourn/class/fournisseur.commande.class.php',
+						'FactureFournisseur' => '/fourn/class/fournisseur.facture.class.php',
+						'SupplierProposal' => '/supplier_proposal/class/supplier_proposal.class.php',
+						'ProductFournisseur' => '/fourn/class/fournisseur.product.class.php',
+						'Livraison' => '/livraison/class/livraison.class.php',
+						'Product' => '/product/class/product.class.php',
+						'Project' => '/projet/class/project.class.php',
+						'User' => '/user/class/user.class.php',
+					);
 
-					if (!$errors && !$object_name::replaceThirdparty($db, $soc_origin->id, $object->id))
+					//First, all core objects must update their tables
+					foreach ($objects as $object_name => $object_file)
 					{
-						$errors++;
-						setEventMessages($db->lasterror(), null, 'errors');
+						require_once DOL_DOCUMENT_ROOT.$object_file;
+
+						if (!$error && !$object_name::replaceThirdparty($db, $soc_origin->id, $object->id))
+						{
+							$error++;
+							setEventMessages($db->lasterror(), null, 'errors');
+						}
 					}
 				}
 
-				//External modules should update their ones too
-				if (!$errors)
+				// External modules should update their ones too
+				if (! $error)
 				{
 					$reshook = $hookmanager->executeHooks('replaceThirdparty', array(
 						'soc_origin' => $soc_origin->id,
@@ -230,20 +262,35 @@ if (empty($reshook))
 					if ($reshook < 0)
 					{
 						setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
-						$errors++;
+						$error++;
 					}
 				}
 
-				if (!$errors)
+
+				if (! $error)
+				{
+					$object->context=array('merge'=>1, 'mergefromid'=>$soc_origin->id);
+
+					// Call trigger
+					$result=$object->call_trigger('COMPANY_MODIFY',$user);
+					if ($result < 0)
+					{
+						setEventMessages($object->error, $object->errors, 'errors');
+						$error++;
+					}
+					// End call triggers
+				}
+
+				if (!$error)
 				{
 					//We finally remove the old thirdparty
 					if ($soc_origin->delete($soc_origin->id, $user) < 1)
 					{
-						$errors++;
+						$error++;
 					}
 				}
 
-				if (!$errors)
+				if (!$error)
 				{
 					setEventMessages($langs->trans('ThirdpartiesMergeSuccess'), null, 'mesgs');
 					$db->commit();
@@ -292,11 +339,17 @@ if (empty($reshook))
         $extralabels = $extrafields->fetch_name_optionals_label($object->table_element);
         $ret = $extrafields->setOptionalsFromPost($extralabels, $object, GETPOST('attribute'));
         if ($ret < 0) $error++;
+
         if (! $error)
         {
             $result = $object->insertExtraFields();
-            if ($result < 0) $error++;
+   			if ($result < 0)
+			{
+				setEventMessages($object->error, $object->errors, 'errors');
+				$error++;
+			}
         }
+
         if ($error) $action = 'edit_extras';
     }
 
@@ -310,191 +363,156 @@ if (empty($reshook))
         {
             setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentitiesnoconv("ThirdPartyName")), null, 'errors');
             $error++;
-            $action='create';
         }
         if (GETPOST('client') < 0)
         {
             setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentitiesnoconv("ProspectCustomer")), null, 'errors');
             $error++;
-            $action='create';
         }
         if (GETPOST('fournisseur') < 0)
         {
             setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentitiesnoconv("Supplier")), null, 'errors');
             $error++;
-            $action='create';
+
         }
 
-
-        if ($action == 'update')
+        if (! $error)
         {
-        	$ret=$object->fetch($socid);
-			$object->oldcopy = clone $object;
-        }
-		else $object->canvas=$canvas;
+        		if ($action == 'update')
+	        {
+	        		$ret=$object->fetch($socid);
+				$object->oldcopy = clone $object;
+	        }
+			else $object->canvas=$canvas;
 
-        if (GETPOST("private") == 1)
-        {
-            $object->particulier       = GETPOST("private");
+	        if (GETPOST("private") == 1)	// Ask to create a contact
+	        {
+	            $object->particulier			= GETPOST("private");
 
-            $object->name              = dolGetFirstLastname(GETPOST('firstname','alpha'),GETPOST('name','alpha'));
-            $object->civility_id       = GETPOST('civility_id');	// Note: civility id is a code, not an int
-            // Add non official properties
-            $object->name_bis          = GETPOST('name','alpha');
-            $object->firstname         = GETPOST('firstname','alpha');
-        }
-        else
-        {
-            $object->name              = GETPOST('name', 'alpha');
-        }
-        $object->name_alias            = GETPOST('name_alias');
-        $object->address               = GETPOST('address');
-        $object->zip                   = GETPOST('zipcode', 'alpha');
-        $object->town                  = GETPOST('town', 'alpha');
-        $object->country_id            = GETPOST('country_id', 'int');
-        $object->state_id              = GETPOST('state_id', 'int');
-        $object->skype                 = GETPOST('skype', 'alpha');
-        $object->phone                 = GETPOST('phone', 'alpha');
-        $object->fax                   = GETPOST('fax','alpha');
-        $object->email                 = GETPOST('email', 'custom', 0, FILTER_SANITIZE_EMAIL);
-        $object->url                   = GETPOST('url', 'custom', 0, FILTER_SANITIZE_URL);
-        $object->idprof1               = GETPOST('idprof1', 'alpha');
-        $object->idprof2               = GETPOST('idprof2', 'alpha');
-        $object->idprof3               = GETPOST('idprof3', 'alpha');
-        $object->idprof4               = GETPOST('idprof4', 'alpha');
-        $object->idprof5               = GETPOST('idprof5', 'alpha');
-        $object->idprof6               = GETPOST('idprof6', 'alpha');
-        $object->prefix_comm           = GETPOST('prefix_comm', 'alpha');
-        $object->code_client           = GETPOST('code_client', 'alpha');
-        $object->code_fournisseur      = GETPOST('code_fournisseur', 'alpha');
-        $object->capital               = GETPOST('capital', 'alpha');
-        $object->barcode               = GETPOST('barcode', 'alpha');
+	            $object->name				= dolGetFirstLastname(GETPOST('firstname','alpha'),GETPOST('name','alpha'));
+	            $object->civility_id			= GETPOST('civility_id');	// Note: civility id is a code, not an int
+	            // Add non official properties
+	            $object->name_bis			= GETPOST('name','alpha');
+	            $object->firstname			= GETPOST('firstname','alpha');
+	        }
+	        else
+	        {
+	            $object->name				= GETPOST('name', 'alpha');
+	        }
+	        $object->entity					= (GETPOSTISSET('entity')?GETPOST('entity', 'int'):$conf->entity);
+	        $object->name_alias				= GETPOST('name_alias');
+	        $object->address					= GETPOST('address');
+	        $object->zip						= GETPOST('zipcode', 'alpha');
+	        $object->town					= GETPOST('town', 'alpha');
+	        $object->country_id				= GETPOST('country_id', 'int');
+	        $object->state_id				= GETPOST('state_id', 'int');
+	        $object->skype					= GETPOST('skype', 'alpha');
+	        $object->phone					= GETPOST('phone', 'alpha');
+	        $object->fax						= GETPOST('fax','alpha');
+	        $object->email					= trim(GETPOST('email', 'custom', 0, FILTER_SANITIZE_EMAIL));
+	        $object->url						= trim(GETPOST('url', 'custom', 0, FILTER_SANITIZE_URL));
+	        $object->idprof1					= trim(GETPOST('idprof1', 'alpha'));
+	        $object->idprof2					= trim(GETPOST('idprof2', 'alpha'));
+	        $object->idprof3					= trim(GETPOST('idprof3', 'alpha'));
+	        $object->idprof4					= trim(GETPOST('idprof4', 'alpha'));
+	        $object->idprof5					= trim(GETPOST('idprof5', 'alpha'));
+	        $object->idprof6					= trim(GETPOST('idprof6', 'alpha'));
+	        $object->prefix_comm				= GETPOST('prefix_comm', 'alpha');
+	        $object->code_client				= GETPOST('code_client', 'alpha');
+	        $object->code_fournisseur		= GETPOST('code_fournisseur', 'alpha');
+	        $object->capital					= GETPOST('capital', 'alpha');
+	        $object->barcode					= GETPOST('barcode', 'alpha');
 
-        $object->tva_intra             = GETPOST('tva_intra', 'alpha');
-        $object->tva_assuj             = GETPOST('assujtva_value', 'alpha');
-        $object->status                = GETPOST('status', 'alpha');
+	        $object->tva_intra				= GETPOST('tva_intra', 'alpha');
+	        $object->tva_assuj				= GETPOST('assujtva_value', 'alpha');
+	        $object->status					= GETPOST('status', 'alpha');
 
-        // Local Taxes
-        $object->localtax1_assuj       = GETPOST('localtax1assuj_value', 'alpha');
-        $object->localtax2_assuj       = GETPOST('localtax2assuj_value', 'alpha');
+	        // Local Taxes
+	        $object->localtax1_assuj			= GETPOST('localtax1assuj_value', 'alpha');
+	        $object->localtax2_assuj			= GETPOST('localtax2assuj_value', 'alpha');
 
-        $object->localtax1_value	   = GETPOST('lt1', 'alpha');
-        $object->localtax2_value	   = GETPOST('lt2', 'alpha');
+	        $object->localtax1_value			= GETPOST('lt1', 'alpha');
+	        $object->localtax2_value			= GETPOST('lt2', 'alpha');
 
-        $object->forme_juridique_code  = GETPOST('forme_juridique_code', 'int');
-        $object->effectif_id           = GETPOST('effectif_id', 'int');
-        $object->typent_id             = GETPOST('typent_id');
+	        $object->forme_juridique_code	= GETPOST('forme_juridique_code', 'int');
+	        $object->effectif_id				= GETPOST('effectif_id', 'int');
+	        $object->typent_id				= GETPOST('typent_id','int');
 
-        $object->client                = GETPOST('client', 'int');
-        $object->fournisseur           = GETPOST('fournisseur', 'int');
+	        $object->typent_code				= dol_getIdFromCode($db, $object->typent_id, 'c_typent', 'id', 'code');	// Force typent_code too so check in verify() will be done on new type
 
-        $object->commercial_id         = GETPOST('commercial_id', 'int');
-        $object->default_lang          = GETPOST('default_lang');
+	        $object->client					= GETPOST('client', 'int');
+	        $object->fournisseur				= GETPOST('fournisseur', 'int');
 
-        // Webservices url/key
-        $object->webservices_url       = GETPOST('webservices_url', 'custom', 0, FILTER_SANITIZE_URL);
-        $object->webservices_key       = GETPOST('webservices_key', 'san_alpha');
+	        $object->commercial_id			= GETPOST('commercial_id', 'int');
+	        $object->default_lang			= GETPOST('default_lang');
 
-		// Incoterms
-		if (!empty($conf->incoterm->enabled))
-		{
-			$object->fk_incoterms 		   = GETPOST('incoterm_id', 'int');
-			$object->location_incoterms    = GETPOST('location_incoterms', 'alpha');
-		}
+	        // Webservices url/key
+	        $object->webservices_url			= GETPOST('webservices_url', 'custom', 0, FILTER_SANITIZE_URL);
+	        $object->webservices_key			= GETPOST('webservices_key', 'san_alpha');
 
-		// Multicurrency
-		if (!empty($conf->multicurrency->enabled))
-		{
-			$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
-		}
+			// Incoterms
+			if (!empty($conf->incoterm->enabled))
+			{
+				$object->fk_incoterms		= GETPOST('incoterm_id', 'int');
+				$object->location_incoterms	= GETPOST('location_incoterms', 'alpha');
+			}
 
-        // Fill array 'array_options' with data from add form
-        $ret = $extrafields->setOptionalsFromPost($extralabels,$object);
-		if ($ret < 0)
-		{
-			 $error++;
-			 $action = ($action=='add'?'create':'edit');
-		}
+			// Multicurrency
+			if (!empty($conf->multicurrency->enabled))
+			{
+				$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
+			}
 
-        if (GETPOST('deletephoto')) $object->logo = '';
-        else if (! empty($_FILES['photo']['name'])) $object->logo = dol_sanitizeFileName($_FILES['photo']['name']);
+	        // Fill array 'array_options' with data from add form
+	        $ret = $extrafields->setOptionalsFromPost($extralabels,$object);
+			if ($ret < 0)
+			{
+				 $error++;
+			}
 
-        // Check parameters
-        if (! GETPOST("cancel"))
-        {
-            if (! empty($object->email) && ! isValidEMail($object->email))
-            {
-                $langs->load("errors");
-                $error++; $errors[] = $langs->trans("ErrorBadEMail",$object->email);
-                $action = ($action=='add'?'create':'edit');
-            }
-            if (! empty($object->url) && ! isValidUrl($object->url))
-            {
-                $langs->load("errors");
-                $error++; $errors[] = $langs->trans("ErrorBadUrl",$object->url);
-                $action = ($action=='add'?'create':'edit');
-            }
-            if ($object->fournisseur && ! $conf->fournisseur->enabled)
-            {
-                $langs->load("errors");
-                $error++; $errors[] = $langs->trans("ErrorSupplierModuleNotEnabled");
-                $action = ($action=='add'?'create':'edit');
-            }
-            if (! empty($object->webservices_url)) {
-                //Check if has transport, without any the soap client will give error
-                if (strpos($object->webservices_url, "http") === false)
-                {
-                    $object->webservices_url = "http://".$object->webservices_url;
-                }
-                if (! isValidUrl($object->webservices_url)) {
-                    $langs->load("errors");
-                    $error++; $errors[] = $langs->trans("ErrorBadUrl",$object->webservices_url);
-                    $action = ($action=='add'?'create':'edit');
-                }
-            }
+	        if (GETPOST('deletephoto')) $object->logo = '';
+	        else if (! empty($_FILES['photo']['name'])) $object->logo = dol_sanitizeFileName($_FILES['photo']['name']);
 
-            // We set country_id, country_code and country for the selected country
-            $object->country_id=GETPOST('country_id')!=''?GETPOST('country_id'):$mysoc->country_id;
-            if ($object->country_id)
-            {
-            	$tmparray=getCountry($object->country_id,'all');
-            	$object->country_code=$tmparray['code'];
-            	$object->country=$tmparray['label'];
-            }
+	        // Check parameters
+	        if (! GETPOST('cancel','alpha'))
+	        {
+	            if (! empty($object->email) && ! isValidEMail($object->email))
+	            {
+	                $langs->load("errors");
+	                $error++;
+	                setEventMessages('', $langs->trans("ErrorBadEMail",$object->email), 'errors');
+	            }
+	            if (! empty($object->url) && ! isValidUrl($object->url))
+	            {
+	                $langs->load("errors");
+	                setEventMessages('', $langs->trans("ErrorBadUrl",$object->url), 'errors');
+	            }
+	            if ($object->fournisseur && ! $conf->fournisseur->enabled)
+	            {
+	                $langs->load("errors");
+	                setEventMessages('', $langs->trans("ErrorSupplierModuleNotEnabled"), 'errors');
+	            }
+	            if (! empty($object->webservices_url)) {
+	                //Check if has transport, without any the soap client will give error
+	                if (strpos($object->webservices_url, "http") === false)
+	                {
+	                    $object->webservices_url = "http://".$object->webservices_url;
+	                }
+	                if (! isValidUrl($object->webservices_url)) {
+	                    $langs->load("errors");
+	                    $error++; $errors[] = $langs->trans("ErrorBadUrl",$object->webservices_url);
+	                }
+	            }
 
-            // Check for duplicate or mandatory prof id
-            // Only for companies
-	        if (!($object->particulier || $private))
-        	{
-	        	for ($i = 1; $i <= 6; $i++)
-	        	{
-	        	    $slabel="idprof".$i;
-	    			$_POST[$slabel]=trim($_POST[$slabel]);
-	        	    $vallabel=$_POST[$slabel];
-	        		if ($vallabel && $object->id_prof_verifiable($i))
-					{
-						if($object->id_prof_exists($i,$vallabel,$object->id))
-						{
-							$langs->load("errors");
-	                		$error++; $errors[] = $langs->transcountry('ProfId'.$i, $object->country_code)." ".$langs->trans("ErrorProdIdAlreadyExist", $vallabel);
-	                		$action = (($action=='add'||$action=='create')?'create':'edit');
-						}
-					}
-
-            		// Check for mandatory prof id (but only if country is than than ours)
-					if ($mysoc->country_id > 0 && $object->country_id == $mysoc->country_id)
-            		{
-    					$idprof_mandatory ='SOCIETE_IDPROF'.($i).'_MANDATORY';
-    					if (! $vallabel && ! empty($conf->global->$idprof_mandatory))
-    					{
-    						$langs->load("errors");
-    						$error++;
-    						$errors[] = $langs->trans("ErrorProdIdIsMandatory", $langs->transcountry('ProfId'.$i, $object->country_code));
-    						$action = (($action=='add'||$action=='create')?'create':'edit');
-    					}
-            		}
-	        	}
-        	}
+	            // We set country_id, country_code and country for the selected country
+	            $object->country_id=GETPOST('country_id')!=''?GETPOST('country_id'):$mysoc->country_id;
+	            if ($object->country_id)
+	            {
+	            	$tmparray=getCountry($object->country_id,'all');
+	            	$object->country_code=$tmparray['code'];
+	            	$object->country=$tmparray['label'];
+	            }
+	        }
         }
 
         if (! $error)
@@ -509,19 +527,20 @@ if (empty($reshook))
                 $result = $object->create($user);
 
 				if ($result >= 0)
-                {
-                    if ($object->particulier)
-                    {
-                        dol_syslog("This thirdparty is a personal people",LOG_DEBUG);
-                        $result=$object->create_individual($user);
-                        if (! $result >= 0)
-                        {
-                            $error=$object->error; $errors=$object->errors;
-                        }
-                    }
+				{
+					if ($object->particulier)
+					{
+						dol_syslog("We ask to create a contact/address too", LOG_DEBUG);
+						$result=$object->create_individual($user);
+						if ($result < 0)
+						{
+							setEventMessages($object->error, $object->errors, 'errors');
+							$error++;
+						}
+					}
 
 					// Customer categories association
-					$custcats = GETPOST( 'custcats', 'array' );
+					$custcats = GETPOST('custcats', 'array');
 					$object->setCategories($custcats, 'customer');
 
 					// Supplier categories association
@@ -578,7 +597,8 @@ if (empty($reshook))
 						$object->code_client = null;
 					}
 
-                    $error=$object->error; $errors=$object->errors;
+                    setEventMessages($object->error, $object->errors, 'errors');
+                   	$error++;
                 }
 
                 if ($result >= 0)
@@ -610,7 +630,7 @@ if (empty($reshook))
 
             if ($action == 'update')
             {
-                if (GETPOST("cancel"))
+                if (GETPOST('cancel','alpha'))
                 {
                 	if (! empty($backtopage))
                 	{
@@ -632,16 +652,22 @@ if (empty($reshook))
                 $result = $object->update($socid, $user, 1, $object->oldcopy->codeclient_modifiable(), $object->oldcopy->codefournisseur_modifiable(), 'update', 0);
                 if ($result <=  0)
                 {
-                    $error = $object->error; $errors = $object->errors;
+                    setEventMessages($object->error, $object->errors, 'errors');
+                    $errors = $object->errors;
+                    $error++;
                 }
 
-				// Customer categories association
-				$categories = GETPOST( 'custcats', 'array' );
-				$object->setCategories($categories, 'customer');
+				// Prevent thirdparty's emptying if a user hasn't rights $user->rights->categorie->lire (in such a case, post of 'custcats' is not defined)
+				if (!empty($user->rights->categorie->lire))
+				{
+					// Customer categories association
+					$categories = GETPOST( 'custcats', 'array' );
+					$object->setCategories($categories, 'customer');
 
-				// Supplier categories association
-				$categories = GETPOST('suppcats', 'array');
-				$object->setCategories($categories, 'supplier');
+					// Supplier categories association
+					$categories = GETPOST('suppcats', 'array');
+					$object->setCategories($categories, 'supplier');
+				}
 
                 // Logo/Photo save
                 $dir     = $conf->societe->multidir_output[$object->entity]."/".$object->id."/logos";
@@ -686,7 +712,7 @@ if (empty($reshook))
                     }
                 }
                 else
-              {
+                {
 					switch($_FILES['photo']['error'])
 					{
 					    case 1: //uploaded file exceeds the upload_max_filesize directive in php.ini
@@ -711,12 +737,13 @@ if (empty($reshook))
                 	{
                 		$error++;
                 		$object->error .= $object->db->lasterror();
+                		setEventMessages($object->error, $object->errors, 'errors');
                 	}
                 }
 
                 if (! $error && ! count($errors))
                 {
-                    if (! empty($backtopage))
+                	if (! empty($backtopage))
                 	{
                		    header("Location: ".$backtopage);
                     	exit;
@@ -734,6 +761,10 @@ if (empty($reshook))
                 }
             }
         }
+        else
+        {
+        	$action = ($action=='add'?'create':'edit');
+        }
     }
 
     // Delete third party
@@ -744,13 +775,14 @@ if (empty($reshook))
 
         if ($result > 0)
         {
-            header("Location: ".DOL_URL_ROOT."/societe/list.php?delsoc=".urlencode($object->name));
+            header("Location: ".DOL_URL_ROOT."/societe/list.php?restore_lastsearch_values=1&delsoc=".urlencode($object->name));
             exit;
         }
         else
         {
             $langs->load("errors");
-            $error=$langs->trans($object->error); $errors = $object->errors;
+           	setEventMessages($object->error, $object->errors, 'errors');
+           	$error++;
             $action='';
         }
     }
@@ -769,8 +801,10 @@ if (empty($reshook))
     	$result = $object->setIncoterms(GETPOST('incoterm_id', 'int'), GETPOST('location_incoterms', 'alpha'));
     }
 
-    // Actions to send emails
     $id=$socid;
+    $object->fetch($socid);
+
+    // Actions to send emails
     $trigger_name='COMPANY_SENTBYMAIL';
     $paramname='socid';
     $mode='emailfromthirdparty';
@@ -783,7 +817,6 @@ if (empty($reshook))
     $permissioncreate=$user->rights->societe->creer;
     include DOL_DOCUMENT_ROOT.'/core/actions_builddoc.inc.php';
 }
-
 
 
 /*
@@ -827,8 +860,8 @@ else
          *  Creation
          */
 		$private=GETPOST("private","int");
-		if (! empty($conf->global->THIRDPARTY_DEFAULT_CREATE_CONTACT) && ! isset($_GET['private']) && ! isset($_POST['private'])) $private=0;/// **p** default 1
-    	if (empty($private)) $private=1;
+		if (! empty($conf->global->THIRDPARTY_DEFAULT_CREATE_CONTACT) && ! isset($_GET['private']) && ! isset($_POST['private'])) $private=1;
+    	if (empty($private)) $private=0;
 
         // Load object modCodeTiers
         $module=(! empty($conf->global->SOCIETE_CODECLIENT_ADDON)?$conf->global->SOCIETE_CODECLIENT_ADDON:'mod_codeclient_leopard');
@@ -861,12 +894,10 @@ else
         if (GETPOST("type")!='f')
         {
             $object->client=-1;
-            //if (! empty($conf->global->THIRDPARTY_CUSTOMERPROSPECT_BY_DEFAULT))  { $object->client=3; }
-            if (! empty($conf->global->THIRDPARTY_CUSTOMERPROSPECT_BY_DEFAULT))  { $object->client=1; }
+            if (! empty($conf->global->THIRDPARTY_CUSTOMERPROSPECT_BY_DEFAULT))  { $object->client=3; }
         }
-        if (GETPOST("type")=='c')  { $object->client=3; }   // Prospect / Customer   
+        if (GETPOST("type")=='c')  { $object->client=3; }   // Prospect / Customer
         if (GETPOST("type")=='p')  { $object->client=2; }
-        if (GETPOST("type")=='k')  { $object->client=1; }       // **p** kunde lead
         if (! empty($conf->fournisseur->enabled) && (GETPOST("type")=='f' || (GETPOST("type")=='' && ! empty($conf->global->THIRDPARTY_SUPPLIER_BY_DEFAULT))))  { $object->fournisseur=1; }
 
         $object->name				= GETPOST('name', 'alpha');
@@ -961,8 +992,8 @@ else
         /* Show create form */
 
         $linkback="";
-        //print load_fiche_titre($langs->trans("NewThirdParty"),$linkback,'title_companies.png');
-        print load_fiche_titre(("Neuer Kunde"),$linkback,'title_companies.png');
+        print load_fiche_titre($langs->trans("NewThirdParty"),$linkback,'title_companies.png');
+
         if (! empty($conf->use_javascript_ajax))
         {
             print "\n".'<script type="text/javascript">';
@@ -1000,13 +1031,13 @@ else
             print '<div class="hideonsmartphone float">';
             print $langs->trans("ThirdPartyType").': &nbsp; &nbsp; ';
             print '</div>';
-	        print '<label for="radiocompany">';
+	        print '<label for="radiocompany" class="radiocompany">';
             print '<input type="radio" id="radiocompany" class="flat" name="private"  value="0"'.($private?'':' checked').'>';
 	        print '&nbsp;';
             print $langs->trans("CreateThirdPartyOnly");
 	        print '</label>';
             print ' &nbsp; &nbsp; ';
-	        print '<label for="radioprivate">';
+	        print '<label for="radioprivate" class="radioprivate">';
             $text ='<input type="radio" id="radioprivate" class="flat" name="private" value="1"'.($private?' checked':'').'>';
 	        $text.='&nbsp;';
 	        $text.= $langs->trans("CreateThirdPartyAndContact");
@@ -1019,13 +1050,13 @@ else
 
         dol_htmloutput_mesg(is_numeric($error)?'':$error, $errors, 'error');
 
-        print '<form enctype="multipart/form-data" action="'.$_SERVER["PHP_SELF"].'" method="post" name="formsoc">';
+        print '<form enctype="multipart/form-data" action="'.$_SERVER["PHP_SELF"].'" method="post" name="formsoc" autocomplete="off">';		// Chrome ignor autocomplete
 
         print '<input type="hidden" name="action" value="add">';
         print '<input type="hidden" name="backtopage" value="'.$backtopage.'">';
         print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
         print '<input type="hidden" name="private" value='.$object->particulier.'>';
-        print '<input type="hidden" name="type" value='.GETPOST("type").'>';
+        print '<input type="hidden" name="type" value='.GETPOST("type",'alpha').'>';
         print '<input type="hidden" name="LastName" value="'.$langs->trans('ThirdPartyName').' / '.$langs->trans('LastName').'">';
         print '<input type="hidden" name="ThirdPartyName" value="'.$langs->trans('ThirdPartyName').'">';
         if ($modCodeClient->code_auto || $modCodeFournisseur->code_auto) print '<input type="hidden" name="code_auto" value="1">';
@@ -1038,8 +1069,7 @@ else
 	    print '<tr><td class="titlefieldcreate">';
         if ($object->particulier || $private)
         {
-	        //print '<span id="TypeName" class="fieldrequired">'.$langs->trans('ThirdPartyName').' / '.$langs->trans('LastName','name').'</span>';
-                print '<span id="TypeName" class="fieldrequired">Patient / '.$langs->trans('LastName','name').'</span>';
+	        print '<span id="TypeName" class="fieldrequired">'.$langs->trans('ThirdPartyName').' / '.$langs->trans('LastName','name').'</span>';
         }
         else
 		{
@@ -1061,27 +1091,19 @@ else
             print '</tr>';
             // Title
             print '<tr class="individualline"><td>'.fieldLabel('UserTitle','civility_id').'</td><td colspan="3" class="maxwidthonsmartphone">';
-            //print $formcompany->select_civility($object->civility_id, 'civility_id', 'maxwidth100').'</td>';
-            print '<select name="civility_id" id="civility_id">
-                    <option value=""></option>
-                    <option value="MME">Frau</option>
-                    <option value="MR">Herr</option>
-                    <option value="DR">Doktor</option>
-                    <option value="MTRE">Professor</option>
-                    </select> </td>';   /// <option value="MLE">Fräulein</option>
+            print $formcompany->select_civility($object->civility_id, 'civility_id', 'maxwidth100').'</td>';
             print '</tr>';
         }
 
         // Alias names (commercial, trademark or alias names)
-        print '<tr id="name_alias" style="display:none;"><td><label for="name_alias_input">'.$langs->trans('AliasNames').'</label></td>';
+        print '<tr id="name_alias"><td><label for="name_alias_input">'.$langs->trans('AliasNames').'</label></td>';
 	    print '<td colspan="3"><input type="text" class="minwidth300" name="name_alias" id="name_alias_input" value="'.$object->name_alias.'"></td></tr>';
 
         // Prospect/Customer
-        //print '<tr ><td class="titlefieldcreate" >'.fieldLabel('ProspectCustomer','customerprospect',1).'</td>';
-        print '<tr ><td class="titlefieldcreate" ></td>'; ///angefügt
+        print '<tr><td class="titlefieldcreate">'.fieldLabel('ProspectCustomer','customerprospect',1).'</td>';
 	    print '<td class="maxwidthonsmartphone">';
-	    $selected=isset($_POST['client'])?GETPOST('client'):$object->client;
-        print '<select class="flat" name="client" id="customerprospect" style="display:none;">';
+	    $selected=GETPOST('client','int')!=''?GETPOST('client','int'):$object->client;
+        print '<select class="flat" name="client" id="customerprospect">';
         if (GETPOST("type") == '') print '<option value="-1">&nbsp;</option>';
         if (empty($conf->global->SOCIETE_DISABLE_PROSPECTS)) print '<option value="2"'.($selected==2?' selected':'').'>'.$langs->trans('Prospect').'</option>';
         if (empty($conf->global->SOCIETE_DISABLE_PROSPECTS) && empty($conf->global->SOCIETE_DISABLE_CUSTOMERS) && empty($conf->global->SOCIETE_DISABLE_PROSPECTSCUSTOMERS)) print '<option value="3"'.($selected==3?' selected':'').'>'.$langs->trans('ProspectCustomer').'</option>';
@@ -1089,26 +1111,25 @@ else
         print '<option value="0"'.((string) $selected == '0'?' selected':'').'>'.$langs->trans('NorProspectNorCustomer').'</option>';
         print '</select></td>';
 
-        //print '<td>'.fieldLabel('CustomerCode','customer_code').'</td><td>';
-        print '<td>Kundennummer</td><td>';
+        print '<td>'.fieldLabel('CustomerCode','customer_code').'</td><td>';
         print '<table class="nobordernopadding"><tr><td>';
 		$tmpcode=$object->code_client;
         if (empty($tmpcode) && ! empty($modCodeClient->code_auto)) $tmpcode=$modCodeClient->getNextValue($object,0);
-        print '<input type="text" name="code_client" id="customer_code" class="maxwidthonsmartphone" value="'.dol_escape_htmltag($tmpcode).'" maxlength="15" readonly="readonly">';
+        print '<input type="text" name="code_client" id="customer_code" class="maxwidthonsmartphone" value="'.dol_escape_htmltag($tmpcode).'" maxlength="15">';
         print '</td><td>';
         $s=$modCodeClient->getToolTip($langs,$object,0);
-        //print $form->textwithpicto('',$s,1);
+        print $form->textwithpicto('',$s,1);
         print '</td></tr></table>';
         print '</td></tr>';
 
         if (! empty($conf->fournisseur->enabled) && ! empty($user->rights->fournisseur->lire))
         {
             // Supplier
-            print '<tr style="display:none;">';
+            print '<tr>';
             print '<td>'.fieldLabel('Supplier','fournisseur',1).'</td><td>';
             $default = -1;
             if (! empty($conf->global->THIRDPARTY_SUPPLIER_BY_DEFAULT)) $default=1;
-            print $form->selectyesno("fournisseur", (isset($_POST['fournisseur'])?GETPOST('fournisseur'):(GETPOST("type") == '' ? $default : $object->fournisseur)), 1, 0, (GETPOST("type") == '' ? 1 : 0));
+            print $form->selectyesno("fournisseur", (GETPOST('fournisseur','int')!=''?GETPOST('fournisseur','int'):(GETPOST("type",'alpha') == '' ? $default : $object->fournisseur)), 1, 0, (GETPOST("type",'alpha') == '' ? 1 : 0));
             print '</td>';
             print '<td>'.fieldLabel('SupplierCode','supplier_code').'</td><td>';
             print '<table class="nobordernopadding"><tr><td>';
@@ -1123,23 +1144,21 @@ else
         }
 
         // Status
-        print '<tr style="display:none;"><td >'.fieldLabel('Status','status').'</td><td colspan="3">';
+        print '<tr><td>'.fieldLabel('Status','status').'</td><td colspan="3">';
         print $form->selectarray('status', array('0'=>$langs->trans('ActivityCeased'),'1'=>$langs->trans('InActivity')),1);
         print '</td></tr>';
 
         // Barcode
         if (! empty($conf->barcode->enabled))
         {
-            print '<tr style="display:none;"><td>'.fieldLabel('Gencod','barcode').'</td>';
+            print '<tr><td>'.fieldLabel('Gencod','barcode').'</td>';
 	        print '<td colspan="3"><input type="text" name="barcode" id="barcode" value="'.$object->barcode.'">';
             print '</td></tr>';
         }
 
-                
         // Address
-        //print '<tr><td class="tdtop">'.fieldLabel('Address','address').'</td>';
-        print '<tr><td class="tdtop">Straße / Hausnr.</td>';
-	print '<td colspan="3"><textarea name="address" id="address" class="quatrevingtpercent" rows="'._ROWS_2.'" wrap="soft">';
+        print '<tr><td class="tdtop">'.fieldLabel('Address','address').'</td>';
+	    print '<td colspan="3"><textarea name="address" id="address" class="quatrevingtpercent" rows="'.ROWS_2.'" wrap="soft">';
         print $object->address;
         print '</textarea></td></tr>';
 
@@ -1165,26 +1184,24 @@ else
             print '</td></tr>';
         }
 
-        
-        
         // Email web
-        print '<tr><td>'.fieldLabel('EMail','email').(! empty($conf->global->SOCIETE_MAIL_REQUIRED)?'*':'').'</td>';
+        print '<tr><td>'.fieldLabel('EMail','email',$conf->global->SOCIETE_EMAIL_MANDATORY).'</td>';
 	    print '<td colspan="3"><input type="text" name="email" id="email" value="'.$object->email.'"></td></tr>';
-        print '<tr style="display:none;"><td>'.fieldLabel('Web','url').'</td>';
+        print '<tr><td>'.fieldLabel('Web','url').'</td>';
 	    print '<td colspan="3"><input type="text" name="url" id="url" value="'.$object->url.'"></td></tr>';
 
         // Skype
         if (! empty($conf->skype->enabled))
         {
-            print '<tr style="display:none;"><td>'.fieldLabel('Skype','skype').'</td>';
+            print '<tr><td>'.fieldLabel('Skype','skype').'</td>';
 	        print '<td colspan="3"><input type="text" name="skype" id="skype" value="'.$object->skype.'"></td></tr>';
         }
 
-        // Phone / Fax  **p**
+        // Phone / Fax
         print '<tr><td>'.fieldLabel('Phone','phone').'</td>';
-	    print '<td><input type="text" name="phone" id="phone" class="1maxwidth100onsmartphone quatrevingtpercent" value="'.$object->phone.'" style="width:120px"> Mobil <input type="text" name="selectmobilfunk" id="selectmobilfunk" class="1maxwidth100onsmartphone quatrevingtpercent" value="" style="width:120px"></td>';
-        print '<td style="display:none;">'.fieldLabel('Fax','fax').'</td>';
-	    print '<td style="display:none;"><input type="text" name="fax" id="fax" class="maxwidth100onsmartphone quatrevingtpercent" value="'.$object->fax.'"></td></tr>';
+	    print '<td><input type="text" name="phone" id="phone" class="maxwidth100onsmartphone quatrevingtpercent" value="'.$object->phone.'"></td>';
+        print '<td>'.fieldLabel('Fax','fax').'</td>';
+	    print '<td><input type="text" name="fax" id="fax" class="maxwidth100onsmartphone quatrevingtpercent" value="'.$object->fax.'"></td></tr>';
 
         // Prof ids
         $i=1; $j=0;
@@ -1195,7 +1212,7 @@ else
             {
 	            $key='idprof'.$i;
 
-                if (($j % 2) == 0) print '<tr style="display:none;">';
+                if (($j % 2) == 0) print '<tr>';
 
                 $idprof_mandatory ='SOCIETE_IDPROF'.($i).'_MANDATORY';
                 print '<td>'.fieldLabel($idprof,$key, (empty($conf->global->$idprof_mandatory)?0:1)).'</td><td>';
@@ -1210,7 +1227,7 @@ else
         if ($j % 2 == 1) print '<td colspan="2"></td></tr>';
 
         // Vat is used
-        print '<tr style="display:none;"><td>'.fieldLabel('VATIsUsed','assujtva_value').'</td>';
+        print '<tr><td>'.fieldLabel('VATIsUsed','assujtva_value').'</td>';
         print '<td>';
         print $form->selectyesno('assujtva_value',(isset($conf->global->THIRDPARTY_DEFAULT_USEVAT)?$conf->global->THIRDPARTY_DEFAULT_USEVAT:1),1);     // Assujeti par defaut en creation
         print '</td>';
@@ -1218,7 +1235,7 @@ else
         print '<td class="nowrap">';
         $s = '<input type="text" class="flat maxwidthonsmartphone" name="tva_intra" id="intra_vat" maxlength="20" value="'.$object->tva_intra.'">';
 
-        if (empty($conf->global->MAIN_DISABLEVATCHECK))
+        if (empty($conf->global->MAIN_DISABLEVATCHECK) && isInEEC($object))
         {
             $s.=' ';
 
@@ -1247,7 +1264,7 @@ else
         //TODO: Place into a function to control showing by country or study better option
         if($mysoc->localtax1_assuj=="1" && $mysoc->localtax2_assuj=="1")
         {
-            print '<tr style="display:none;"><td>'.$langs->transcountry("LocalTax1IsUsed",$mysoc->country_code).'</td><td>';
+            print '<tr><td>'.$langs->transcountry("LocalTax1IsUsed",$mysoc->country_code).'</td><td>';
             print $form->selectyesno('localtax1assuj_value',(isset($conf->global->THIRDPARTY_DEFAULT_USELOCALTAX1)?$conf->global->THIRDPARTY_DEFAULT_USELOCALTAX1:0),1);
             print '</td><td>'.$langs->transcountry("LocalTax2IsUsed",$mysoc->country_code).'</td><td>';
             print $form->selectyesno('localtax2assuj_value',(isset($conf->global->THIRDPARTY_DEFAULT_USELOCALTAX2)?$conf->global->THIRDPARTY_DEFAULT_USELOCALTAX2:0),1);
@@ -1256,19 +1273,19 @@ else
         }
         elseif($mysoc->localtax1_assuj=="1")
         {
-            print '<tr style="display:none;"><td>'.$langs->transcountry("LocalTax1IsUsed",$mysoc->country_code).'</td><td colspan="3">';
+            print '<tr><td>'.$langs->transcountry("LocalTax1IsUsed",$mysoc->country_code).'</td><td colspan="3">';
             print $form->selectyesno('localtax1assuj_value',(isset($conf->global->THIRDPARTY_DEFAULT_USELOCALTAX1)?$conf->global->THIRDPARTY_DEFAULT_USELOCALTAX1:0),1);
             print '</td></tr>';
         }
         elseif($mysoc->localtax2_assuj=="1")
         {
-            print '<tr style="display:none;"><td>'.$langs->transcountry("LocalTax2IsUsed",$mysoc->country_code).'</td><td colspan="3">';
+            print '<tr><td>'.$langs->transcountry("LocalTax2IsUsed",$mysoc->country_code).'</td><td colspan="3">';
             print $form->selectyesno('localtax2assuj_value',(isset($conf->global->THIRDPARTY_DEFAULT_USELOCALTAX2)?$conf->global->THIRDPARTY_DEFAULT_USELOCALTAX2:0),1);
             print '</td></tr>';
         }
-/*
+
         // Type - Size
-        print '<tr style="display:none;"><td >'.fieldLabel('ThirdPartyType','typent_id').'</td><td class="maxwidthonsmartphone">'."\n";
+        print '<tr><td>'.fieldLabel('ThirdPartyType','typent_id').'</td><td class="maxwidthonsmartphone">'."\n";
         $sortparam=(empty($conf->global->SOCIETE_SORT_ON_TYPEENT)?'ASC':$conf->global->SOCIETE_SORT_ON_TYPEENT); // NONE means we keep sort of original array, so we sort on position. ASC, means next function will sort on label.
         print $form->selectarray("typent_id", $formcompany->typent_array(0), $object->typent_id, 0, 0, 0, '', 0, 0, 0, $sortparam);
         if ($user->admin) print ' '.info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"),1);
@@ -1277,27 +1294,9 @@ else
         print $form->selectarray("effectif_id", $formcompany->effectif_array(0), $object->effectif_id);
         if ($user->admin) print ' '.info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"),1);
         print '</td></tr>';
-*/
-        // Type - Size
-        print '<tr style="display:none"><td>'.fieldLabel('ThirdPartyType','typent_id').'</td><td class="maxwidthonsmartphone">'."\n";  //**p** Typ des Partners
-        Print '<select id="typent_id" class="flat typent_id" name="typent_id"><option value="0">--</option>
-                <option value="101">Gesundheitsdienstleister</option>
-                <option selected value="103">Kunde</option>
-                <option value="104">Lieferant</option>
-                <option value="102">Verordner</option>
-                </select>';
-        
-        //$sortparam=(empty($conf->global->SOCIETE_SORT_ON_TYPEENT)?'ASC':$conf->global->SOCIETE_SORT_ON_TYPEENT); // NONE means we keep sort of original array, so we sort on position. ASC, means next function will sort on label.
-        //print $form->selectarray("typent_id", $formcompany->typent_array(0), $object->typent_id, 0, 0, 0, '', 0, 0, 0, $sortparam);
-        //if ($user->admin) print ' '.info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"),1);
-        print '</td>';
-         print '<td>'.fieldLabel('Staff','effectif_id').'</td><td class="maxwidthonsmartphone">';
-        print $form->selectarray("effectif_id", $formcompany->effectif_array(0), $object->effectif_id);
-        if ($user->admin) print ' '.info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"),1);
-        print '</td></tr>';
-        
+
         // Legal Form
-        print '<tr style="display:none;"><td>'.fieldLabel('JuridicalStatus','forme_juridique_code').'</td>';
+        print '<tr><td>'.fieldLabel('JuridicalStatus','forme_juridique_code').'</td>';
         print '<td colspan="3" class="maxwidthonsmartphone">';
         if ($object->country_id)
         {
@@ -1310,14 +1309,13 @@ else
         print '</td></tr>';
 
         // Capital
-        /*
-        print '<tr style="display:none;"><td>'.fieldLabel('Capital','capital').'</td>';
+        print '<tr><td>'.fieldLabel('Capital','capital').'</td>';
 	    print '<td colspan="3"><input type="text" name="capital" id="capital" size="10" value="'.$object->capital.'"> ';
         print '<span class="hideonsmartphone">'.$langs->trans("Currency".$conf->currency).'</span></td></tr>';
-*/
+
         if (! empty($conf->global->MAIN_MULTILANGS))
         {
-            print '<tr style="display:none;"><td>'.fieldLabel('DefaultLang','default_lang').'</td><td colspan="3" class="maxwidthonsmartphone">'."\n";
+            print '<tr><td>'.fieldLabel('DefaultLang','default_lang').'</td><td colspan="3" class="maxwidthonsmartphone">'."\n";
             print $formadmin->select_language(($object->default_lang?$object->default_lang:$conf->global->MAIN_LANG_DEFAULT),'default_lang',0,0,1,0,0,'maxwidth200onsmartphone');
             print '</td>';
             print '</tr>';
@@ -1325,23 +1323,18 @@ else
 
         if ($user->rights->societe->client->voir)
         {
-            /*
-            // Assign a Name    **p** dem Mitarbeiter zugewiesen
+            // Assign a Name
             print '<tr>';
-            //print '<td>'.fieldLabel('AllocateCommercial','commercial_id').'</td>';
-            print '<td>Dem Mitarbeiter zugewiesen</td>';
+            print '<td>'.fieldLabel('AllocateCommercial','commercial_id').'</td>';
             print '<td colspan="3" class="maxwidthonsmartphone">';
-            //print $form->select_dolusers((! empty($object->commercial_id)?$object->commercial_id:$user->id),'commercial_id',1); // Add current user by default
             print $form->select_dolusers((! empty($object->commercial_id)?$object->commercial_id:$user->id),'commercial_id',1); // Add current user by default
             print '</td></tr>';
-              
-             */
         }
-        
+
 		// Incoterms
 		if (!empty($conf->incoterm->enabled))
 		{
-			print '<tr style="display:none;">';
+			print '<tr>';
 			print '<td>'.fieldLabel('IncotermLabel','incoterm_id').'</td>';
 	        print '<td colspan="3" class="maxwidthonsmartphone">';
 	        print $form->select_incoterms((!empty($object->fk_incoterms) ? $object->fk_incoterms : ''), (!empty($object->location_incoterms)?$object->location_incoterms:''));
@@ -1353,13 +1346,12 @@ else
 		{
 			$langs->load('categories');
 
-			                        
-                        // Customer
+			// Customer
 			if ($object->prospect || $object->client) {
-				print '<tr style="display:none"><td class="toptd">' . fieldLabel('CustomersCategoriesShort', 'custcats') . '</td><td colspan="3">';
+				print '<tr><td class="toptd">' . fieldLabel('CustomersCategoriesShort', 'custcats') . '</td><td colspan="3">';
 				$cate_arbo = $form->select_all_categories(Categorie::TYPE_CUSTOMER, null, 'parent', null, null, 1);
-				//print $form->multiselectarray('custcats', $cate_arbo, GETPOST('custcats', 'array'), null, null, null,null, "90%");
-                                print $form->multiselectarray('custcats', $cate_arbo, array(0=>2), null, null, null,null, "90%"); //array(0=>13) bedeutet 13 Element vom Tag select Kundenkategorie
+				print $form->multiselectarray('custcats', $cate_arbo, GETPOST('custcats', 'array'), null, null, null,
+					null, "90%");
 				print "</td></tr>";
 			}
 
@@ -1373,56 +1365,17 @@ else
 			}
 		}
 
-		// Multicurrency  Währung
+		// Multicurrency
 		if (! empty($conf->multicurrency->enabled))
 		{
-			print '<tr style="display:none;">';
+			print '<tr>';
 			print '<td>'.fieldLabel('Currency','multicurrency_code').'</td>';
 	        print '<td colspan="3" class="maxwidthonsmartphone">';
 	        print $form->selectMultiCurrency(($object->multicurrency_code ? $object->multicurrency_code : $conf->currency), 'multicurrency_code', 1);
 			print '</td></tr>';
 		}
-           
-                // Abweichende Lieferanschrift
-        print '<tr class="liste_titre"><td colspan="4"><strong></strong></td></tr>';
-        
-        print '<tr><td class="tdtop">Abweichende-Lieferanschrift</td>';  //print '<tr><td class="tdtop"><Abweichende-Lieferanschrift/td>';
-        print '<td colspan="3"><input type="checkbox" id="selectlieferanschrift" name="selectlieferanschrift" style="width: 20px" value="1" /></td></tr>';
 
-        print '<tr id="show_abw_name"><td class="tdtop">Vorname</td>';
-	print '<td colspan="3"><input type="text" id="abw_vrn" name="abw_vrn" value="" style="width: 120px" /> Nachname <input type="text" id="abw_name" name="abw_name" value="" style="width: 120px" /></td></tr>';
-        
-        
-        print '<tr id="show_abw"><td class="tdtop">Straße</td>';
-	print '<td colspan="3"><input type="text" id="abw_strasse" name="abw_strasse" value="" style="width: 200px" /> Hausnr. <input type="text" id="abw_nummer" name="abw_nummer" value="" style="width: 60px" /></td></tr>';
-       
-        print '<tr id="show_abw_plz_ort"><td class="tdtop">PLZ</td>';
-	print '<td colspan="3"><input type="text" id="abw_plz" name="abw_plz" value="" style="width: 70px" /> Ort <input type="text" id="abw_ort" name="abw_ort" value="" style="width: 210px" /></td></tr>';
-        
-        print '<tr id="show_abw_einrichtung"><td class="tdtop">Name der Einrichtung</td>';
-	print '<td colspan="3"><input type="text" id="abw_einrichtung" name="abw_einrichtung" value="" style="width: 320px" /></td></tr>';
-
-        
-        print '<tr id="show_abw_station"><td class="tdtop">Station</td>';
-	print '<td colspan="3"><input type="text" id="abw_station" name="abw_station" value="" style="width: 120px" /> Zimmer <input type="text" id="abw_zimmer" name="abw_zimmer" value="" style="width: 140px" /></td></tr>';
-        
-        // Abweichende Rechnungsanschrift
-        print '<tr><td class="tdtop">Abweichende Rechnungsanschrift</td>';  //print '<tr><td class="tdtop"><Abweichende-Lieferanschrift/td>';
-        print '<td colspan="3"><input type="checkbox" id="selectrechnungsanschift" name="selectrechnungsanschift" style="width: 20px" value="1" /></td></tr>';
-
-        print '<tr id="show_abwr_vrn_name"><td class="tdtop">Vorname</td>';
-	print '<td colspan="3"><input type="text" id="abwr_vrn" name="abwr_vrn" value="" style="width: 120px" /> Nachname <input type="text" id="abwr_name" name="abwr_name" value="" style="width: 160px" /></td></tr>';
-
-        
-        print '<tr id="show_abwr"><td class="tdtop">Straße</td>';
-	print '<td colspan="3"><input type="text" id="abwr_strasse" name="abwr_strasse" value="" style="width: 200px" /> Hausnr. <input type="text" id="abwr_nummer" name="abwr_nummer" value="" style="width: 60px" /></td></tr>';
-       
-        print '<tr id="show_abwr_plz_ort"><td class="tdtop">PLZ</td>';
-	print '<td colspan="3"><input type="text" id="abwr_plz" name="abwr_plz" value="" style="width: 120px" /> Ort <input type="text" id="abwr_ort" name="abwr_ort" value="" style="width: 160px" /></td></tr>';
-
-
-        
-        // Other attributes extrafield
+        // Other attributes
         $parameters=array('colspan' => ' colspan="3"', 'colspanvalue' => '3');
         $reshook=$hookmanager->executeHooks('formObjectOptions',$parameters,$object,$action);    // Note that $action and $object may have been modified by hook
         print $hookmanager->resPrint;
@@ -1432,7 +1385,7 @@ else
         }
 
         // Ajout du logo
-        print '<tr class="hideonsmartphone" style="display:none">';
+        print '<tr class="hideonsmartphone">';
         print '<td>'.fieldLabel('Logo','photoinput').'</td>';
         print '<td colspan="3">';
         print '<input class="flat" type="file" name="photo" id="photoinput" />';
@@ -1444,8 +1397,7 @@ else
         dol_fiche_end();
 
         print '<div class="center">';
-        //print '<input type="submit" class="button" name="create" value="'.$langs->trans('AddThirdParty').'">';
-        print '<input type="submit" class="button" name="create" value="Speichern">';
+        print '<input type="submit" class="button" name="create" value="'.$langs->trans('AddThirdParty').'">';
         if (! empty($backtopage))
         {
             print ' &nbsp; &nbsp; ';
@@ -1459,357 +1411,6 @@ else
         print '</div>'."\n";
 
         print '</form>'."\n";
-        
-        //Dirk
-
-        //Krankenkasse option 
-        $resql = $db->query("SELECT CONCAT(kassen_ik,' ',kassen_bezeichnung) AS label FROM ".MAIN_DB_PREFIX."krankenkassen");
-        $options_krankenkassen = "";
-        while($obj = $db->fetch_object($resql)){
-            $options_krankenkassen .= " <option value=\"" . $obj->label . "\">\n";
-        }
-        
-        //Verordner Auswahl 
-        $resql = $db->query("   SELECT      s.*,cs.fk_categorie AS fk_categorie 
-                                FROM        llx_societe s
-                                LEFT JOIN   llx_categorie_societe cs
-                                ON          s.rowid=cs.fk_soc
-                                WHERE       cs.fk_categorie=3
-                                ORDER BY    s.nom ASC");
-        $options_verordner = "";
-        while($obj = $db->fetch_object($resql)){
-            $options_verordner .= " <option value=\"" . $obj->rowid . ": " . $obj->nom . " " . $obj->name_alias . " " . $obj->address . " " . $obj->zip . " " . $obj->town . "\">\n";
-        }
-        print   /// popup dialog angehöriger      
-                "<div id=\"dialog_angehoeriger\" title=\"weiterer Angehöriger\" style=\"display: none\">\n" . 
-               // " <p>Bitte ausfüllen</p>\n" . 
-                " <table class=\"border\" style=\"width: 100%\">\n" . 
-                "  <tr><td><label for=\"angehoeriger2_name\">Name</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_name\" id=\"angehoeriger2_name\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_vorname\">Vorname</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_vorname\" id=\"angehoeriger2_vorname\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_strasse\">Straße</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_strasse\" id=\"angehoeriger2_strasse\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_plz\">Postleitzahl</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_plz\" id=\"angehoeriger2_plz\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_ort\">Ort</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_ort\" id=\"angehoeriger2_ort\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_telefon\">Telefon</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_telefon\" id=\"angehoeriger2_telefon\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_mobilfunk\">Mobilfunk</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_mobilfunk\" id=\"angehoeriger2_mobilfunk\" /></td></tr>\n" . 
-                "  <tr><td class=\"titlefieldcreate\"><label for=\"angehoeriger2_email\">Email</label></td><td colspan=\"3\"><input type=\"text\" name=\"angehoeriger2_email\" id=\"angehoeriger2_email\" /></td></tr>\n" . 
-
-                " </table>\n" . 
-                "</div>\n" .
-                
-                "<datalist id=\"krankenkassen\">\n" .                    //Krankenkasse
-                $options_krankenkassen . 
-                "</datalist>\n" . 
-                "<datalist id=\"verordner\">\n" .                    //Verordner
-                $options_verordner . 
-                "</datalist>\n" . 
-                "<script>\n" . 
-                "\$('input[name=options_test]').val('Teste mal...');\n" .   // textfeld 'test' bekommt wert zugewiesen
-                "\$('.societe_extras_test').hide();\n" .      // gesamter bereich 'test' ausblenden
-                "\$('.societe_extras_mobilfunk').hide();\n" .      // gesamter bereich 'test' ausblenden
-                "\$('#options_test2').val('3').change();\n" .     // auswahlfeld 'test2' selektiert option value 3 
-                "\$('input[name=options_krankenkassen]').attr('list', 'krankenkassen');\n" . //Krankenkasse Autocomplete 
-                "\$('input[name=options_krankenkassen]').attr('autocomplete','off');\n" . 
-                "\$('input[name=options_krankenkasse]').attr('autocomplete','off');\n" . 
-                
-                "\$('input[name=options_krankenkassen]').on('click change select', function(){\n" .   //keyup      
-                " var value=this.value;\n" .                                             
-                " var arr=value.split(' ');\n" . 
-                " \$('input[name=options_krankenkasse_ik]').val(arr[0]);\n" . 
-                " var arr=value.split(arr[0]+' ');\n" . 
-                " \$('input[name=options_krankenkasse]').val(arr[1]);\n" . 
-                //"$('input[name=options_krankenkassen]').val('');\n" . //leert das Feld 
-                "});\n" . 
-                
-                
-                /*              
-                "\$('input[name=options_krankenkassen]').on('click', function(){\n" .   //keyup       Feld leeren
-                "$('input[name=options_krankenkassen]').val('');\n" .                
-                "});\n" .
-                 
-                 */
-                
-                
-                "\$('input[name=options_krankenkasse]').attr('disabled','disabled');\n" . 
-                "\$('input[name=options_krankenkasse_ik]').attr('disabled','disabled');\n" . 
-                 
-                /*
-                "\$('input[name=options_krankenkassen]').on('keyup select', function(){\n" .         
-                " var value=this.value;\n" .                                             
-                " var arr=value.split(' ');\n" . 
-                //" if (arr[3] === undefined){ alert('123');}" . 
-                " if (arr[3] === undefined){\n" . 
-                " \$('input[name=options_krankenkasse]').val(arr[1]+' '+arr[2]);\n" . 
-                //" }else{\n" . 
-                //" \$('input[name=options_krankenkasse]').val(arr[1]+' '+arr[2]);\n" . 
-                " elseif (arr[4] === undefined){\n" . 
-                //" }else{\n" . 
-                " \$('input[name=options_krankenkasse]').val(arr[1]+' '+arr[2]+' '+arr[3]);\n" .  
-                
-                 " }\n" . 
-                 "});\n" . 
-                */
-                
-                /*
-                "\$('input[name=options_krankenkassen]').on('keyup select', function(){\n" .         
-                " var value=this.value;\n" .                                             
-                " var arrr=value.split(' ');\n" . 
-                " \$('input[name=options_krankenkasse]').val(arrr[1]+' '+arrr[2]);\n" . 
-                "});\n" . 
-                */
-                
-                
-                "\$('input[name=options_verordner]').attr('list', 'verordner');\n" . //Verordner Autocomplete 
-                "\$('input[name=options_verordner]').attr('autocomplete','off');\n" . 
-                
-                "\$('.societe_extras_lieferadr_strasse').hide();\n" . //Lieferanschrift
-                "\$('.societe_extras_lieferadr_hsnr').hide();\n" . //Lieferanschrift
-                "\$('.societe_extras_lieferadr_plz').hide();\n" . //Lieferanschrift
-                "\$('.societe_extras_lieferadr_ort').hide();\n" . //Lieferanschrift
-                "\$('.societe_extras_lieferadr_vorname').hide();\n" . //Lieferanschrift
-                "\$('.societe_extras_lieferadr_einrichtung').hide();\n" . //Lieferanschrift
-                "\$('.societe_extras_lieferadr_station').hide();\n" . 
-                "\$('.societe_extras_lieferadr_name').hide();\n" . 
-                "\$('.societe_extras_lieferadr_zimmer').hide();\n" . 
-                "\$('.societe_extras_verordner_lan').hide();\n" . 
-                "\$('.societe_extras_verordner_betriebsstnr').hide();\n" . 
-                "\$('.societe_extras_verordner_betriebsstnr').hide();\n" . 
-                "\$('.societe_extras_verordner_fachrichtung').hide();\n" . 
-                "\$('.societe_extras_verordner_betreuer').hide();\n" . 
-                "\$('.societe_extras_einrichtung_name').hide();\n" .
-                "\$('.societe_extras_einrichtung_plz').hide();\n" .
-                "\$('.societe_extras_einrichtung_ort').hide();\n" .
-                "\$('.societe_extras_einrichtung_station').hide();\n" .
-                "\$('.societe_extras_einrichtung_zimmer').hide();\n" .
-                "\$('.societe_extras_verordner_fachr_unterk').hide();\n" .
-                "\$('.societe_extras_pflegegrad').hide();\n" .
-                "\$('.societe_extras_pflegegrad').hide();\n" . 
-                "\$('.societe_extras_rechnungsadr_vorname').hide();\n" . 
-                "\$('.societe_extras_rechnungsadr_nachname').hide();\n" . 
-                "\$('.societe_extras_rechnungsadr_strasse').hide();\n" . 
-                "\$('.societe_extras_rechnungsadr_hsnr').hide();\n" . 
-                "\$('.societe_extras_rechnungsadr_plz').hide();\n" . 
-                "\$('.societe_extras_rechnungsadr_ort').hide();\n" . 
-                
-                
-
-                
-                
-                //"\$('.societe_extras_krankenkasse_ik').hide();\n" . 
-                "\$('.societe_extras_gesundheitsdienstl').hide();\n" . 
-                
-                "\$('.societe_extras_lieferant_kreditorennr').hide();\n" .
-                
-                "\$('#options_zuzahlung').on('change', function(){\n" .   // Datum einblenden
-                " if(this.value=='2'){\n" .                                 //Zuzahlungsbefreit
-                "  \$('.societe_extras_zuzahlungsbefreit_datum').show();\n" . 
-                " }else{\n" . 
-                "  \$('.societe_extras_zuzahlungsbefreit_datum').hide();\n" . 
-                " }\n" . 
-                "});\n" .
-                "\$('.societe_extras_zuzahlungsbefreit_datum').hide();\n" .
-                "\$('#selectmobilfunk').on('keyup change', function(){\n" . //Mobilfunk
-                " \$('input[name=options_mobilfunk]').val(this.value);\n" . 
-                "});\n" .
-                
-                "\$('#show_abw').hide();\n" .                       //Abw Lieferanschrift
-                "\$('#show_abw_plz_ort').hide();\n" . 
-                "\$('#show_abw_station').hide();\n" . 
-                "\$('#show_abw_name').hide();\n" . 
-                "\$('#show_abw_einrichtung').hide();\n" . 
-                
-                "\$('#selectlieferanschrift').on('change', function(){\n" . //Abw Lieferanschrift
-                " if(this.checked){\n" . 
-                "  \$('#show_abw').show();\n" . 
-                "  \$('#show_abw_plz_ort').show();\n" . 
-                "  \$('#show_abw_station').show();\n" . 
-                "  \$('#show_abw_name').show();\n" . 
-                "  \$('#show_abw_einrichtung').show();\n" . 
-                " }else{\n" . 
-                "  \$('#show_abw').hide();\n" . 
-                "  \$('#show_abw_plz_ort').hide();\n" . 
-                "  \$('#show_abw_station').hide();\n" . 
-                "  \$('#show_abw_name').hide();\n" . 
-                "  \$('#show_abw_einrichtung').hide();\n" . 
-                " }\n" . 
-                "});\n" .
-                
-                "\$('#abw_strasse').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_strasse]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abw_nummer').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_hsnr]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abw_plz').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_plz]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abw_ort').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_ort]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#abw_einrichtung').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_einrichtung]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#abw_station').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_station]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abw_zimmer').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_zimmer]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#abw_name').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_name]').val(this.value);\n" . 
-                "});\n" .          
-                "\$('#abw_vrn').on('keyup change', function(){\n" . 
-                " \$('input[name=options_lieferadr_vorname]').val(this.value);\n" . 
-                "});\n" .                 
-                
-                "\$('#show_abwr').hide();\n" .                       //Abw Rechnungsanschrift
-                "\$('#show_abwr_vrn_name').hide();\n" . 
-                "\$('#show_abwr_plz_ort').hide();\n" . 
-                
-                
-                "\$('#selectrechnungsanschift').on('change', function(){\n" . //Abw Rechnungsanschrift
-                " if(this.checked){\n" . 
-                "  \$('#show_abwr').show();\n" . 
-                "  \$('#show_abwr_plz_ort').show();\n" . 
-                "\$('#show_abwr_vrn_name').show();\n" . 
-                " }else{\n" . 
-                "  \$('#show_abwr').hide();\n" . 
-                "\$('#show_abwr_vrn_name').hide();\n" . 
-                "  \$('#show_abwr_plz_ort').hide();\n" . 
-                " }\n" . 
-                "});\n" . 
-                
-                "\$('#abwr_strasse').on('keyup change', function(){\n" . 
-                " \$('input[name=options_rechnungsadr_strasse]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abwr_nummer').on('keyup change', function(){\n" . 
-                " \$('input[name=options_rechnungsadr_hsnr]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abwr_plz').on('keyup change', function(){\n" . 
-                " \$('input[name=options_rechnungsadr_plz]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#abwr_ort').on('keyup change', function(){\n" . 
-                " \$('input[name=options_rechnungsadr_ort]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#abwr_vrn').on('keyup change', function(){\n" . 
-                " \$('input[name=options_rechnungsadr_vorname]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#abwr_name').on('keyup change', function(){\n" . 
-                " \$('input[name=options_rechnungsadr_nachname]').val(this.value);\n" . 
-                "});\n" . 
-                
-                
-                
-                "\$('input[name=options_verordner]').on('change select', function(){\n" .      //keyup   /// Verordner ID    "\$('input[name=options_verordner]').on('keyup change select', function(){\n" .
-                " var value=this.value;\n" .                                            //" var value=this.value;\n" .    // this.value=arr[1];\n" . 
-                " var arr=value.split(': ');\n" .
-                " \$('input[name=options_verordner_id]').val(arr[0]);\n" . 
-                                                                                        //" this.value=arr[1];\n" . //// angefügt
-                "});\n" .
-                
-                                                                                                                            
-                "\$('.societe_extras_angehoeriger_name input').after('<a id=popup_angehoeriger>weitere anlegen</a>');\n" . //// anbinden eines weiter button
-                "\$('#popup_angehoeriger').on('click', function(){\n" .                                  /// popup dialog button anfang
-                " \$('#dialog_angehoeriger').dialog({\n" . 
-                "  modal: true, \n" . 
-                "  width: '50%', \n" . 
-                "  buttons: [\n" . 
-                "   {\n" . 
-                "    text: 'ABBRECHEN', \n" . 
-                "    icons: {primary: 'ui-icon-closethick', secondary: 'ui-icon-circle-close'}, \n" . 
-                "    click: function(){\n" . 
-                "     \$('input[name=options_angehoeriger2_name]').val('');" . //// löschen bei abbrechen aus feld
-                "     \$('input[name=options_angehoeriger2_vorname]').val('');" . 
-                "     \$('input[name=options_angehoeriger2_strasse]').val('');" . 
-                "     \$('input[name=options_angehoeriger2_plz]').val('');" . 
-                "     \$('input[name=options_angehoeriger2_ort]').val('');" . 
-                "     \$('input[name=options_angehoeriger2_telefon]').val('');" .
-                "     \$('input[name=options_angehoeriger2_mobilfunk]').val('');" .
-                "     \$('input[name=options_angehoeriger2_email]').val('');" .
-                "     \$('#angehoeriger2_name').val('');" .                          /// abbrechen löschen
-                "     \$('#angehoeriger2_vorname').val('');" . 
-                "     \$('#angehoeriger2_strasse').val('');" . 
-                "     \$('#angehoeriger2_plz').val('');" . 
-                "     \$('#angehoeriger2_ort').val('');" . 
-                "     \$('#angehoeriger2_telefon').val('');" . 
-                "     \$('#angehoeriger2_mobilfunk').val('');" . 
-                "     \$('#angehoeriger2_email').val('');" . 
-                "     \$(this).dialog('close');\n" . 
-                "    }\n" . 
-                "   }, \n" . 
-                "   {\n" . 
-                "    text: 'OK', \n" . 
-                "    icons: {primary: 'ui-icon-check', secondary: 'ui-icon-circle-check'}, \n" . 
-                "    click: function(){\n" . 
-                "     \$('input[name=options_angehoeriger2_name]').val(\$('#angehoeriger2_name').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_vorname]').val(\$('#angehoeriger2_vorname').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_strasse]').val(\$('#angehoeriger2_strasse').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_plz]').val(\$('#angehoeriger2_plz').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_ort]').val(\$('#angehoeriger2_ort').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_telefon]').val(\$('#angehoeriger2_telefon').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_mobilfunk]').val(\$('#angehoeriger2_mobilfunk').val());\n" . 
-                "     \$('input[name=options_angehoeriger2_email]').val(\$('#angehoeriger2_email').val());\n" . 
-                "     \$(this).dialog('close');\n" . 
-                "    }\n" . 
-                "   }\n" . 
-                "  ]\n" . 
-                " });\n" . 
-                "});\n" . 
-                
-                "\$('#angehoeriger2_name').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_name]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#angehoeriger2_vorname').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_vorname]').val(this.value);\n" . 
-                "});\n" .
-                "\$('#angehoeriger2_strasse').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_strasse]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#angehoeriger2_plz').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_plz]').val(this.value);\n" . 
-                "});\n" .   
-                "\$('#angehoeriger2_ort').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_ort]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#angehoeriger2_telefon').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_telefon]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#angehoeriger2_mobilfunk').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_mobilfunk]').val(this.value);\n" . 
-                "});\n" . 
-                "\$('#angehoeriger2_email').on('keyup', function(){\n" . //// damit er gleich die Werte übergibt
-                " \$('input[name=options_angehoeriger2_email]').val(this.value);\n" . 
-                "});\n" . 
-                
-                "\$('.societe_extras_angehoeriger2_name').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_vorname').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_strasse').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_plz').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_ort').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_telefon').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_mobilfunk').hide();\n" . 
-                "\$('.societe_extras_angehoeriger2_email').hide();\n" . 
-
-                
-                /// popup ende
-                
-                "</script>\n";
-        
-                // **p** Felder ausblenden
-                print '<script>';
-                print '$("tr").each(function(){';
-                print ' if($(this).find("strong:eq(0)").text() == "Lieferanschrift"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("strong:eq(0)").text() == "Rechnungsadresse"){';
-                print '  $(this).hide();';
-                print ' }';
-                print '});';
-                print '</script>'; 
-  
-  //////////////////////////////////////////////////////////////////////  ende
-        
-        
-        
     }
     elseif ($action == 'edit')
     {
@@ -1817,11 +1418,12 @@ else
          * Edition
          */
 
+
         //print load_fiche_titre($langs->trans("EditCompany"));
 
         if ($socid)
         {
-            $res=$object->fetch_optionals($object->id,$extralabels);
+        	$res=$object->fetch_optionals($object->id,$extralabels);
             //if ($res < 0) { dol_print_error($db); exit; }
 
 	        $head = societe_prepare_head($object);
@@ -1864,7 +1466,7 @@ else
 
 			$object->oldcopy = clone $object;
 
-            if (GETPOST('name'))
+            if (GETPOSTISSET('name'))
             {
                 // We overwrite with values if posted
                 $object->name					= GETPOST('name', 'alpha');
@@ -1927,15 +1529,12 @@ else
                 }
             }
 
-            dol_htmloutput_errors($error,$errors);
-
             if($object->localtax1_assuj==0){
             	$sub=0;
             }else{$sub=1;}
             if($object->localtax2_assuj==0){
             	$sub2=0;
             }else{$sub2=1;}
-
 
             print "\n".'<script type="text/javascript">';
             print '$(document).ready(function () {
@@ -2013,8 +1612,7 @@ else
 	        print '<td colspan="3"><input type="text" class="minwidth300" maxlength="128" name="name" id="name" value="'.dol_escape_htmltag($object->name).'" autofocus="autofocus"></td></tr>';
 
 	        // Alias names (commercial, trademark or alias names)
-                
-	        print '<tr id="name_alias" ><td><label for="name_alias_input">'.$langs->trans('AliasNames').'</label></td>';
+	        print '<tr id="name_alias"><td><label for="name_alias_input">'.$langs->trans('AliasNames').'</label></td>';
 	        print '<td colspan="3"><input type="text" class="minwidth300" name="name_alias" id="name_alias_input" value="'.dol_escape_htmltag($object->name_alias).'"></td></tr>';
 
             // Prefix
@@ -2043,7 +1641,6 @@ else
             print '<option value="0"'.($object->client==0?' selected':'').'>'.$langs->trans('NorProspectNorCustomer').'</option>';
             print '</select></td>';
             print '<td>'.fieldLabel('CustomerCode','customer_code').'</td><td>';
-            
 
             print '<table class="nobordernopadding"><tr><td>';
             if ((!$object->code_client || $object->code_client == -1) && $modCodeClient->code_auto)
@@ -2055,12 +1652,12 @@ else
             }
             else if ($object->codeclient_modifiable())
             {
-                print '<input type="text" name="code_client" id="customer_code" size="16" value="'.$object->code_client.'" maxlength="15">';
+            	print '<input type="text" name="code_client" id="customer_code" size="16" value="'.dol_escape_htmltag($object->code_client).'" maxlength="15">';
             }
             else
             {
                 print $object->code_client;
-                print '<input type="hidden" name="code_client" value="'.$object->code_client.'">';
+                print '<input type="hidden" name="code_client" value="'.dol_escape_htmltag($object->code_client).'">';
             }
             print '</td><td>';
             $s=$modCodeClient->getToolTip($langs,$object,0);
@@ -2144,7 +1741,7 @@ else
             }
 
             // EMail / Web
-            print '<tr><td>'.fieldLabel('EMail','email',(! empty($conf->global->SOCIETE_MAIL_REQUIRED))).'</td>';
+            print '<tr><td>'.fieldLabel('EMail','email',(! empty($conf->global->SOCIETE_EMAIL_MANDATORY))).'</td>';
 	        print '<td colspan="3"><input type="text" name="email" id="email" size="32" value="'.$object->email.'"></td></tr>';
             print '<tr><td>'.fieldLabel('Web','url').'</td>';
 	        print '<td colspan="3"><input type="text" name="url" id="url" size="32" value="'.$object->url.'"></td></tr>';
@@ -2174,7 +1771,7 @@ else
 	                if (($j % 2) == 0) print '<tr>';
 
 	                $idprof_mandatory ='SOCIETE_IDPROF'.($i).'_MANDATORY';
-	                if(empty($conf->global->$idprof_mandatory))
+	                if (empty($conf->global->$idprof_mandatory) || ! $object->isACompany())
 	                    print '<td>'.fieldLabel($idprof,$key).'</td><td>';
                     else
 	                    print '<td><span class="fieldrequired">'.fieldLabel($idprof,$key).'</td><td>';
@@ -2249,7 +1846,7 @@ else
             print '<td colspan="3">';
             $s ='<input type="text" class="flat maxwidthonsmartphone" name="tva_intra" id="intra_vat" maxlength="20" value="'.$object->tva_intra.'">';
 
-            if (empty($conf->global->MAIN_DISABLEVATCHECK))
+            if (empty($conf->global->MAIN_DISABLEVATCHECK) && isInEEC($object))
             {
                 $s.=' &nbsp; ';
 
@@ -2275,7 +1872,7 @@ else
             print '</tr>';
 
             // Type - Size
-            print '<tr ><td>'.fieldLabel('ThirdPartyType','typent_id').'</td><td class="maxwidthonsmartphone">';
+            print '<tr><td>'.fieldLabel('ThirdPartyType','typent_id').'</td><td class="maxwidthonsmartphone">';
             print $form->selectarray("typent_id",$formcompany->typent_array(0), $object->typent_id, 0, 0, 0, '', 0, 0, 0, (empty($conf->global->SOCIETE_SORT_ON_TYPEENT)?'ASC':$conf->global->SOCIETE_SORT_ON_TYPEENT));
             if ($user->admin) print info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"),1);
             print '</td>';
@@ -2291,7 +1888,9 @@ else
 
             // Capital
             print '<tr><td>'.fieldLabel('Capital','capital').'</td>';
-	        print '<td colspan="3"><input type="text" name="capital" id="capital" size="10" value="'.$object->capital.'"> <font class="hideonsmartphone">'.$langs->trans("Currency".$conf->currency).'</font></td></tr>';
+	        print '<td colspan="3"><input type="text" name="capital" id="capital" size="10" value="';
+	        print dol_escape_htmltag(price($object->capital));
+	        print '"> <font class="hideonsmartphone">'.$langs->trans("Currency".$conf->currency).'</font></td></tr>';
 
             // Default language
             if (! empty($conf->global->MAIN_MULTILANGS))
@@ -2312,6 +1911,7 @@ else
 					$cate_arbo = $form->select_all_categories(Categorie::TYPE_CUSTOMER, null, null, null, null, 1);
 					$c = new Categorie($db);
 					$cats = $c->containing($object->id, Categorie::TYPE_CUSTOMER);
+					$arrayselected=array();
 					foreach ($cats as $cat) {
 						$arrayselected[] = $cat->id;
 					}
@@ -2326,6 +1926,7 @@ else
 					$cate_arbo = $form->select_all_categories(Categorie::TYPE_SUPPLIER, null, null, null, null, 1);
 					$c = new Categorie($db);
 					$cats = $c->containing($object->id, Categorie::TYPE_SUPPLIER);
+					$arrayselected=array();
 					foreach ($cats as $cat) {
 						$arrayselected[] = $cat->id;
 					}
@@ -2362,7 +1963,6 @@ else
             }
 
 			// Incoterms
-            
 			if (!empty($conf->incoterm->enabled))
 			{
 				print '<tr>';
@@ -2406,7 +2006,7 @@ else
     }
     else
     {
-        /*
+    	/*
          * View
          */
 
@@ -2435,10 +2035,10 @@ else
 			    )
 		    );
 
-		    print $form->formconfirm($_SERVER["PHP_SELF"]."?socid=".$object->id, $langs->trans("MergeThirdparties"), $langs->trans("ConfirmMergeThirdparties"), "confirm_merge", $formquestion, 'no', 1, 200);
+		    print $form->formconfirm($_SERVER["PHP_SELF"]."?socid=".$object->id, $langs->trans("MergeThirdparties"), $langs->trans("ConfirmMergeThirdparties"), "confirm_merge", $formquestion, 'no', 1, 250);
 	    }
 
-        dol_htmloutput_errors($error,$errors);
+        dol_htmloutput_mesg(is_numeric($error)?'':$error, $errors, 'error');
 
         $linkback = '<a href="'.DOL_URL_ROOT.'/societe/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
@@ -2456,10 +2056,13 @@ else
     	print $object->getLibCustProspStatut();
     	print '</td></tr>';
 
-    	// Prospect/Customer
-    	print '<tr><td>'.$langs->trans('Supplier').'</td><td>';
-    	print yn($object->fournisseur);
-    	print '</td></tr>';
+    	// Supplier
+    	if (! empty($conf->fournisseur->enabled))
+    	{
+    		print '<tr><td>'.$langs->trans('Supplier').'</td><td>';
+    		print yn($object->fournisseur);
+    		print '</td></tr>';
+    	}
 
     	// Prefix
         if (! empty($conf->global->SOCIETE_USEPREFIX))  // Old not used prefix field
@@ -2481,10 +2084,10 @@ else
             print '</tr>';
         }
 
-        // Supplier code Steuernummer
+        // Supplier code
         if (! empty($conf->fournisseur->enabled) && $object->fournisseur && ! empty($user->rights->fournisseur->lire))
         {
-            print '<tr style="display:none;"><td>';
+            print '<tr><td>';
             print $langs->trans('SupplierCode').'</td><td>';
             print $object->code_fournisseur;
             if ($object->check_codefournisseur() <> 0) print ' <font class="error">('.$langs->trans("WrongSupplierCode").')</font>';
@@ -2496,7 +2099,7 @@ else
         // Barcode
         if (! empty($conf->barcode->enabled))
         {
-            print '<tr style="display:none;"><td>';
+            print '<tr><td>';
             print $langs->trans('Gencod').'</td><td>'.$object->barcode;
             print '</td>';
 			if ($htmllogobar) $htmllogobar.=$form->showbarcode($object);
@@ -2513,7 +2116,7 @@ else
             if ($idprof!='-')
             {
                 //if (($j % 2) == 0) print '<tr>';
-                print '<tr style="display:none;">';
+                print '<tr>';
             	print '<td>'.$idprof.'</td><td>';
                 $key='idprof'.$i;
                 print $object->$key;
@@ -2532,7 +2135,7 @@ else
         //if ($j % 2 == 1)  print '<td colspan="2"></td></tr>';
 
         // VAT is used
-        print '<tr style="display:none;"><td>';  // USt-pflichtig
+        print '<tr><td>';
         print $langs->trans('VATIsUsed');
         print '</td><td>';
         print yn($object->tva_assuj);
@@ -2638,7 +2241,7 @@ else
 		 */
 
         // VAT Code
-        print '<tr style="display:none;">'; //Umsatzsteuer-ID **p**
+        print '<tr>';
 		print '<td class="nowrap">'.$langs->trans('VATIntra').'</td><td>';
         if ($object->tva_intra)
         {
@@ -2736,7 +2339,7 @@ else
 		if (!empty($conf->incoterm->enabled))
 		{
 			print '<tr><td>';
-            print '<table width="100%" class="nobordernopadding"><tr ><td>';
+            print '<table width="100%" class="nobordernopadding"><tr><td>';
             print $langs->trans('IncotermLabel');
             print '<td><td align="right">';
             if ($user->rights->societe->creer) print '<a href="'.DOL_URL_ROOT.'/societe/card.php?socid='.$object->id.'&action=editincoterm">'.img_edit('',1).'</a>';
@@ -2834,463 +2437,135 @@ else
         /*
          *  Actions
          */
-        print '<div class="tabsAction">'."\n";
+        if ($action != 'presend')
+        {
+	        print '<div class="tabsAction">'."\n";
 
-		$parameters=array();
-		$reshook=$hookmanager->executeHooks('addMoreActionsButtons',$parameters,$object,$action);    // Note that $action and $object may have been modified by hook
-		if (empty($reshook))
-		{
-			$at_least_one_email_contact = false;
-			$TContact = $object->contact_array_objects();
-			foreach ($TContact as &$contact)
+			$parameters=array();
+			$reshook=$hookmanager->executeHooks('addMoreActionsButtons',$parameters,$object,$action);    // Note that $action and $object may have been modified by hook
+			if (empty($reshook))
 			{
-				if (!empty($contact->email))
+				$at_least_one_email_contact = false;
+				$TContact = $object->contact_array_objects();
+				foreach ($TContact as &$contact)
 				{
-					$at_least_one_email_contact = true;
-					break;
+					if (!empty($contact->email))
+					{
+						$at_least_one_email_contact = true;
+						break;
+					}
 				}
+
+		        if (! empty($object->email) || $at_least_one_email_contact)
+		        {
+		        	$langs->load("mails");
+		        	print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER['PHP_SELF'].'?socid='.$object->id.'&amp;action=presend&amp;mode=init#formmailbeforetitle">'.$langs->trans('SendMail').'</a></div>';
+		        }
+		        else
+				{
+		        	$langs->load("mails");
+		       		print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NoEMail")).'">'.$langs->trans('SendMail').'</a></div>';
+		        }
+
+		        if ($user->rights->societe->creer)
+		        {
+		            print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?socid='.$object->id.'&amp;action=edit">'.$langs->trans("Modify").'</a></div>'."\n";
+		        }
+
+		        if ($user->rights->societe->supprimer)
+		        {
+		        	print '<div class="inline-block divButAction"><a class="butActionDelete" href="card.php?action=merge&socid='.$object->id.'" title="'.dol_escape_htmltag($langs->trans("MergeThirdparties")).'">'.$langs->trans('Merge').'</a></div>';
+		        }
+
+		        if ($user->rights->societe->supprimer)
+		        {
+		            if ($conf->use_javascript_ajax && empty($conf->dol_use_jmobile))	// We can't use preloaded confirm form with jmobile
+		            {
+		                print '<div class="inline-block divButAction"><span id="action-delete" class="butActionDelete">'.$langs->trans('Delete').'</span></div>'."\n";
+		            }
+		            else
+					{
+		                print '<div class="inline-block divButAction"><a class="butActionDelete" href="'.$_SERVER["PHP_SELF"].'?socid='.$object->id.'&amp;action=delete">'.$langs->trans('Delete').'</a></div>'."\n";
+		            }
+		        }
 			}
 
-	        if (! empty($object->email) || $at_least_one_email_contact)
-	        {
-	        	$langs->load("mails");
-	        	print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER['PHP_SELF'].'?socid='.$object->id.'&amp;action=presend&amp;mode=init">'.$langs->trans('SendMail').'</a></div>';
-	        }
-	        else
-			{
-	        	$langs->load("mails");
-	       		print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NoEMail")).'">'.$langs->trans('SendMail').'</a></div>';
-	        }
-
-	        if ($user->rights->societe->creer)
-	        {
-	            print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?socid='.$object->id.'&amp;action=edit">'.$langs->trans("Modify").'</a></div>'."\n";
-	        }
-
-	        if ($user->rights->societe->supprimer)
-	        {
-	        	print '<div class="inline-block divButAction"><a class="butActionDelete" href="card.php?action=merge&socid='.$object->id.'" title="'.dol_escape_htmltag($langs->trans("MergeThirdparties")).'">'.$langs->trans('Merge').'</a></div>';
-	        }
-
-	        if ($user->rights->societe->supprimer)
-	        {
-	            if ($conf->use_javascript_ajax && empty($conf->dol_use_jmobile))	// We can't use preloaded confirm form with jmobile
-	            {
-	                print '<div class="inline-block divButAction"><span id="action-delete" class="butActionDelete">'.$langs->trans('Delete').'</span></div>'."\n";
-	            }
-	            else
-				{
-	                print '<div class="inline-block divButAction"><a class="butActionDelete" href="'.$_SERVER["PHP_SELF"].'?socid='.$object->id.'&amp;action=delete">'.$langs->trans('Delete').'</a></div>'."\n";
-	            }
-	        }
-		}
-
-        print '</div>'."\n";
+	        print '</div>'."\n";
+        }
 
         //Select mail models is same action as presend
 		if (GETPOST('modelselected')) {
 			$action = 'presend';
 		}
-		if ($action == 'presend')
+
+		if ($action != 'presend')
 		{
-			/*
-			 * Affiche formulaire mail
-			*/
-
-			// By default if $action=='presend'
-			$titreform='SendMail';
-			$topicmail='';
-			$action='send';
-			$modelmail='thirdparty';
-
-    		print '<div id="formmailbeforetitle" name="formmailbeforetitle"></div>';
-    		print '<div class="clearboth"></div>';
-    		print '<br>';
-			print load_fiche_titre($langs->trans($titreform));
-
-			dol_fiche_head();
-
-			// Define output language
-			$outputlangs = $langs;
-			$newlang = '';
-			if ($conf->global->MAIN_MULTILANGS && empty($newlang) && ! empty($_REQUEST['lang_id']))
-				$newlang = $_REQUEST['lang_id'];
-			if ($conf->global->MAIN_MULTILANGS && empty($newlang))
-				$newlang = $object->default_lang;
-
-			// Cree l'objet formulaire mail
-			include_once DOL_DOCUMENT_ROOT.'/core/class/html.formmail.class.php';
-			$formmail = new FormMail($db);
-			$formmail->param['langsmodels']=(empty($newlang)?$langs->defaultlang:$newlang);
-            $formmail->fromtype = (GETPOST('fromtype')?GETPOST('fromtype'):(!empty($conf->global->MAIN_MAIL_DEFAULT_FROMTYPE)?$conf->global->MAIN_MAIL_DEFAULT_FROMTYPE:'user'));
-
-            if($formmail->fromtype === 'user'){
-                $formmail->fromid = $user->id;
-
-            }
-			$formmail->trackid='thi'.$object->id;
-			if (! empty($conf->global->MAIN_EMAIL_ADD_TRACK_ID) && ($conf->global->MAIN_EMAIL_ADD_TRACK_ID & 2))	// If bit 2 is set
-			{
-				include DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
-				$formmail->frommail=dolAddEmailTrackId($formmail->frommail, 'thi'.$object->id);
-			}
-			$formmail->withfrom=1;
-			$formmail->withtopic=1;
-			$liste=array();
-			foreach ($object->thirdparty_and_contact_email_array(1) as $key=>$value) $liste[$key]=$value;
-			$formmail->withto=GETPOST('sendto')?GETPOST('sendto'):$liste;
-			$formmail->withtofree=1;
-			$formmail->withtocc=$liste;
-			$formmail->withtoccc=$conf->global->MAIN_EMAIL_USECCC;
-			$formmail->withfile=2;
-			$formmail->withbody=1;
-			$formmail->withdeliveryreceipt=1;
-			$formmail->withcancel=1;
-			// Tableau des substitutions
-			//$formmail->setSubstitFromObject($object);
-			$formmail->substit['__THIRDPARTY_NAME__']=$object->name;
-			$formmail->substit['__SIGNATURE__']=$user->signature;
-			$formmail->substit['__PERSONALIZED__']='';
-			$formmail->substit['__CONTACTCIVNAME__']='';
-
-			//Find the good contact adress
-			/*
-			$custcontact='';
-			$contactarr=array();
-			$contactarr=$object->liste_contact(-1,'external');
-
-			if (is_array($contactarr) && count($contactarr)>0)
-			{
-			foreach($contactarr as $contact)
-			{
-			if ($contact['libelle']==$langs->trans('TypeContact_facture_external_BILLING')) {
-
-			require_once DOL_DOCUMENT_ROOT . '/contact/class/contact.class.php';
-
-			$contactstatic=new Contact($db);
-			$contactstatic->fetch($contact['id']);
-			$custcontact=$contactstatic->getFullName($langs,1);
-			}
-			}
-
-			if (!empty($custcontact)) {
-			$formmail->substit['__CONTACTCIVNAME__']=$custcontact;
-			}
-			}*/
-
-
-			// Tableau des parametres complementaires du post
-			$formmail->param['action']=$action;
-			$formmail->param['models']=$modelmail;
-			$formmail->param['models_id']=GETPOST('modelmailselected','int');
-			$formmail->param['socid']=$object->id;
-			$formmail->param['returnurl']=$_SERVER["PHP_SELF"].'?socid='.$object->id;
-
-			// Init list of files
-			if (GETPOST("mode")=='init')
-			{
-				$formmail->clear_attached_files();
-				$formmail->add_attached_files($file,basename($file),dol_mimetype($file));
-			}
-			print $formmail->get_form();
-
-			dol_fiche_end();
-		}
-		else
-		{
+			print '<div class="fichecenter"><div class="fichehalfleft">';
 
 	        if (empty($conf->global->SOCIETE_DISABLE_BUILDDOC))
 	        {
-				print '<div class="fichecenter"><div class="fichehalfleft">';
-	            print '<a name="builddoc"></a>'; // ancre
+				print '<a name="builddoc"></a>'; // ancre
 
 	            /*
 	             * Documents generes
 	             */
 	            $filedir=$conf->societe->multidir_output[$object->entity].'/'.$object->id;
 	            $urlsource=$_SERVER["PHP_SELF"]."?socid=".$object->id;
-	            $genallowed=$user->rights->societe->creer;
-	            $delallowed=$user->rights->societe->supprimer;
-
-	            $var=true;
+	            $genallowed=$user->rights->societe->lire;
+	            $delallowed=$user->rights->societe->creer;
 
 	            print $formfile->showdocuments('company', $object->id, $filedir, $urlsource, $genallowed, $delallowed, $object->modelpdf, 0, 0, 0, 28, 0, 'entity='.$object->entity, 0, '', $object->default_lang);
-
-				print '</div><div class="fichehalfright"><div class="ficheaddleft">';
-
-
-				print '</div></div></div>';
-
-	            print '<br>';
 	        }
 
-	        print '<div class="fichecenter"><br></div>';
+			// Subsidiaries list
+			if (empty($conf->global->SOCIETE_DISABLE_SUBSIDIARIES))
+			{
+				$result=show_subsidiaries($conf,$langs,$db,$object);
+			}
 
-	        // Subsidiaries list
-	        if (empty($conf->global->SOCIETE_DISABLE_SUBSIDIARIES))
-	        {
-	           $result=show_subsidiaries($conf,$langs,$db,$object);
-	        }
+			print '</div><div class="fichehalfright"><div class="ficheaddleft">';
 
-	        // Contacts list
-	        if (empty($conf->global->SOCIETE_DISABLE_CONTACTS))
-	        {
-	            $result=show_contacts($conf,$langs,$db,$object,$_SERVER["PHP_SELF"].'?socid='.$object->id);
-	        }
+			$MAXEVENT = 10;
 
-	        // Addresses list
-	        if (! empty($conf->global->SOCIETE_ADDRESSES_MANAGEMENT))
-	        {
-	        	$result=show_addresses($conf,$langs,$db,$object,$_SERVER["PHP_SELF"].'?socid='.$object->id);
-	        }
+			$morehtmlright = '<a href="'.DOL_URL_ROOT.'/societe/agenda.php?socid='.$object->id.'">';
+			$morehtmlright.= $langs->trans("SeeAll");
+			$morehtmlright.= '</a>';
+
+			// List of actions on element
+			include_once DOL_DOCUMENT_ROOT . '/core/class/html.formactions.class.php';
+			$formactions = new FormActions($db);
+			$somethingshown = $formactions->showactions($object, '', $socid, 1, '', $MAXEVENT, '', $morehtmlright);		// Show all action for thirdparty
+
+			print '</div></div></div>';
+
+			if (! empty($conf->global->MAIN_DUPLICATE_CONTACTS_TAB_ON_MAIN_CARD))
+			{
+				// Contacts list
+				if (empty($conf->global->SOCIETE_DISABLE_CONTACTS))
+				{
+					$result=show_contacts($conf,$langs,$db,$object,$_SERVER["PHP_SELF"].'?socid='.$object->id);
+				}
+
+				// Addresses list
+				if (! empty($conf->global->SOCIETE_ADDRESSES_MANAGEMENT))
+				{
+					$result=show_addresses($conf,$langs,$db,$object,$_SERVER["PHP_SELF"].'?socid='.$object->id);
+				}
+			}
 		}
+
+		// Presend form
+		$modelmail='thirdparty';
+		$defaulttopic='Information';
+		$diroutput = $conf->societe->dir_output;
+		$trackid = 'thi'.$object->id;
+
+		include DOL_DOCUMENT_ROOT.'/core/tpl/card_presend.tpl.php';
+
     }
 }
 
-                if ($action != 'create'){
-                    $result = $db->query("SELECT fk_typent FROM ".MAIN_DB_PREFIX."societe WHERE rowid=" . $socid);
-                    $obj = $db->fetch_object($esult);
 
-                    if($obj->fk_typent == 102){  //Verordner
-
-                        print '<script>';
-
-                        print '$("tr").each(function(){';
-                        print ' if($(this).find("td:eq(0)").text() == "Mitarbeiterzahl"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Lieferant"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Lead / Kunde"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Liefervermerk"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Geburtsdatum"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Pflegegrad"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Sterbevermerk"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Geschlecht"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Kapital"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Vorname"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Name"){';
-                        print '  $(this).hide();';
-                        print ' }';    
-                        print ' if($(this).find("td:eq(0)").text() == "Strasse"){';
-                        print '  $(this).hide();';
-                        print ' }';    
-                        print ' if($(this).find("td:eq(0)").text() == "Hausnummer"){';
-                        print '  $(this).hide();';
-                        print ' }';    
-                        print ' if($(this).find("td:eq(0)").text() == "Postleitzahl"){';
-                        print '  $(this).hide();';
-                        print ' }';    
-                        print ' if($(this).find("td:eq(0)").text() == "Ort"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Name der Einrichtung"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "Station"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "Zimmer"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "Nachname"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "Krankenkassen Auswahl"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "Krankenkasse"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "KK-IK"){';
-                        print '  $(this).hide();';
-                        print ' }';     
-                        print ' if($(this).find("td:eq(0)").text() == "Mitgliedsnummer"){';
-                        print '  $(this).hide();';
-                        print ' }';                         
-                        print ' if($(this).find("td:eq(0)").text() == "Versichertenkarte Gültigkeit MMJJ"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "Mitgliedsstatus"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "Zuzahlung"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "bis Datum MMJJ"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "Pflegekasse"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "Berufsgenossenschaft"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "Verordner"){';
-                        print '  $(this).hide();';
-                        print ' }'; 
-                        print ' if($(this).find("td:eq(0)").text() == "Mobilfunk"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Kreditorennummer"){';
-                        print '  $(this).hide();';
-                        print ' }';  
-                        print ' if($(this).find("td:eq(0)").text() == "Gesundheitsdiensleister"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("td:eq(0)").text() == "Verordner ID"){';
-                        print '  $(this).hide();';
-                        print ' }';                    
-                        print ' if($(this).find("td:eq(0)").text() == "Muttergesellschaft"){';
-                        print '  $(this).hide();';
-                        print ' }';
-
-                        print ' if($(this).find("strong:eq(0)").text() == "Lieferanschrift"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("strong:eq(0)").text() == "Rechnungsadresse"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print ' if($(this).find("strong:eq(0)").text() == "Verordner"){';
-                        print '  $(this).hide();';
-                        print ' }';
-                        print '});';
-                        print '</script>'; 
-
-
-
-                        print '<script>';
-                        print '$("a.tab").each(function (){';
-                        print ' var href=$(this).attr("href");';
-                        //print ' href=href.replace("/societe/card.php?socid=2&action=edit", "/societe/card2.php");';
-                        print ' href=href.replace("societe/card.php", "societe/card2.php");';
-                        //print ' href=href.replace("societe/card.php", "societe/card2.php");'; // hier ersetzungen
-                        //print ' href=href.replace("xxxxxx/xxxxx.php", "yyyyyyy/yyyyy.php");'; // hier ersetzungen
-                        print ' $(this).attr("href", href);';
-
-                        print '});';
-
-                        print '</script>'; 
-                        print '<script>';
-                        print '$("a.butAction").each(function (){';  // durchlaufen alle links die in der klasse butAction
-                        print ' var href=$(this).attr("href");';        // holen der url
-                        print ' href=href.replace("societe/card.php", "societe/card2.php");';  // url ersetzen durch
-                        print ' $(this).attr("href", href);';   // rückspeichern der href url
-
-                        print '});';
-
-                        print '</script>'; 
-                        
-                        print '<script>';
-                        print '$("a.addnewrecord").each(function (){';  // durchlaufen alle links die in der klasse butAction
-                        print ' var href=$(this).attr("href");';        // holen der url
-                        print ' href=href.replace("contact/card.php", "contact/card2.php");';  // url ersetzen durch
-                        print ' $(this).attr("href", href);';   // rückspeichern der href url
-
-                        print '});';
-
-                        print '</script>'; 
-
-
-
-                    } 
-                    if($obj->fk_typent == 103){  // Kunde
-                        print '<script>';
-
-                        print '$("tr").each(function(){';
-                        print ' if($(this).find("td:eq(0)").text() == "Rechtsform"){';
-                        print '  $(this).hide();';
-                        print ' }';
-
-                        print '});';
-                        print '</script>'; 
-
-                    } 
-                    if($obj->fk_typent == 101){  // Gesundheitsdienstleister
-                        print '<script>';
-
-                        print '$("tr").each(function(){';
-                        print ' if($(this).find("td:eq(0)").text() == "Rechtsform"){';
-                        print '  $(this).hide();';
-                        print ' }';
-
-                        print '});';
-                        print '</script>'; 
-
-                    }
-                }
-
-                /*
-                // **p** Felder ausblenden
-                print '<script>';
-                print '$("tr").each(function(){';
-                print ' if($(this).find("td:eq(0)").text() == "Betriebsstättennummer"){';
-                print '  $(this).hide();';
-                print ' }';
-                
-                print ' if($(this).find("td:eq(0)").text() == "Unterkategorie"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "zust. Mitarbeiter"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Kreditorennummer"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Muttergesellschaft"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Gesundheitsdiensleister"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Fachrichtung"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Lebenslange Arztnummer"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Mobilfunk"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Kapital"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Rechtsform"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Mitarbeiterzahl"){';
-                print '  $(this).hide();';
-                print ' }';
-               // print ' if($(this).find("td:eq(0)").text() == "Typ des Partners"){';
-                //print '  $(this).hide();';
-                //print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Vertreter"){';
-                print '  $(this).hide();';
-                print ' }';
-                print ' if($(this).find("td:eq(0)").text() == "Lieferant"){';
-                print '  $(this).hide();';
-                print ' }';
-                
-                print '});';
-                print '</script>'; 
-*/
 // End of page
 llxFooter();
 $db->close();

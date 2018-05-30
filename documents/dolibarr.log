@@ -1,3 +1,15 @@
 2018-05-14 10:55:03 ERR     90.187.0.77     functions::dol_include_once Tried to load unexisting file: /multicompany/class/actions_multicompany.class.php
 2018-05-14 10:55:26 ERR     90.187.0.77     functions::dol_include_once Tried to load unexisting file: /multicompany/class/actions_multicompany.class.php
 2018-05-14 10:55:29 ERR     90.187.0.77     functions::dol_include_once Tried to load unexisting file: /multicompany/class/actions_multicompany.class.php
+2018-05-30 10:42:33 DEBUG   ::1             sql=SELECT rowid, label, description, options, visible, active FROM llx_entity WHERE rowid = 1
+2018-05-30 10:42:33 DEBUG   ::1             sql=SELECT rowid, label FROM llx_entity WHERE rowid in (0,1)
+2018-05-30 10:42:33 DEBUG   ::1             fetch_name_optionals_label elementtype=entity
+2018-05-30 10:42:33 DEBUG   ::1             sql=SELECT rowid,name,label,type,size,elementtype,fieldunique,fieldrequired,param,pos,alwayseditable,perms,langs,list,fielddefault,fieldcomputed,entity FROM llx_extrafields WHERE entity IN (0,1) AND elementtype = 'entity' ORDER BY pos
+2018-05-30 10:43:40 DEBUG   ::1             sql=SELECT rowid, label, description, options, visible, active FROM llx_entity WHERE rowid = 1
+2018-05-30 10:43:40 DEBUG   ::1             sql=SELECT rowid, label FROM llx_entity WHERE rowid in (0,1)
+2018-05-30 10:43:40 DEBUG   ::1             fetch_name_optionals_label elementtype=entity
+2018-05-30 10:43:40 DEBUG   ::1             sql=SELECT rowid,name,label,type,size,elementtype,fieldunique,fieldrequired,param,pos,alwayseditable,perms,langs,list,fielddefault,fieldcomputed,entity FROM llx_extrafields WHERE entity IN (0,1) AND elementtype = 'entity' ORDER BY pos
+2018-05-30 10:49:47 DEBUG   ::1             sql=SELECT rowid, label, description, options, visible, active FROM llx_entity WHERE rowid = 1
+2018-05-30 10:49:47 DEBUG   ::1             sql=SELECT rowid, label FROM llx_entity WHERE rowid in (0,1)
+2018-05-30 10:49:47 DEBUG   ::1             fetch_name_optionals_label elementtype=entity
+2018-05-30 10:49:47 DEBUG   ::1             sql=SELECT rowid,name,label,type,size,elementtype,fieldunique,fieldrequired,param,pos,alwayseditable,perms,langs,list,fielddefault,fieldcomputed,entity FROM llx_extrafields WHERE entity IN (0,1) AND elementtype = 'entity' ORDER BY pos
